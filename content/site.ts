@@ -155,55 +155,55 @@ Now, as they prepare to say yes before God and the people they love most, Cather
 
 export const entourage = [
   // Best Man & Maid/Matron of Honor
-  // { role: "Best Man", name: "Red Casallo" },
-  // { role: "Matron of Honor", name: "Imeeliza Timpug" },
+  { role: "Best Man", name: "Red Casallo" },
+  { role: "Matron of Honor", name: "Imeeliza Timpug" },
 
   // Parents of the Bride
-  // { role: "Father", name: "Jaime Balajadia (Uncle)", group: "kate-family" },
-  // { role: "Mother", name: "Eloida Ricohermoso", group: "kate-family" },
+  { role: "Father", name: "Jaime Balajadia (Uncle)", group: "kate-family" },
+  { role: "Mother", name: "Eloida Ricohermoso", group: "kate-family" },
 
   // Parents of the Groom
-  // { role: "Brother", name: "Perry Ticbaen (Brother)", group: "christian-family" },
-  // { role: "Mother", name: "Felicitas Ticbaen", group: "christian-family" },
+  { role: "Brother", name: "Perry Ticbaen (Brother)", group: "christian-family" },
+  { role: "Mother", name: "Felicitas Ticbaen", group: "christian-family" },
 
   // Bridesmaids
-  // { role: "Bridesmaid", name: "Thea Lynn Dela Cruz" },
-  // { role: "Bridesmaid", name: "Keara Zane A Cariño" },
-  // { role: "Bridesmaid", name: "Fidnah Gracia Padallan" },
-  // { role: "Bridesmaid", name: "Lorna Ladisla" },
-  // { role: "Bridesmaid", name: "Carla Vanessa Tabilin" },
-  // { role: "Bridesmaid", name: "Romela Tolentino" },
-  // { role: "Bridesmaid", name: "Emmalyn Lipio" },
-  // { role: "Bridesmaid", name: "Carmen Pascual" },
-  // { role: "Bridesmaid", name: "Ciddie Manota" },
+  { role: "Bridesmaid", name: "Thea Lynn Dela Cruz" },
+  { role: "Bridesmaid", name: "Keara Zane A Cariño" },
+  { role: "Bridesmaid", name: "Fidnah Gracia Padallan" },
+  { role: "Bridesmaid", name: "Lorna Ladisla" },
+  { role: "Bridesmaid", name: "Carla Vanessa Tabilin" },
+  { role: "Bridesmaid", name: "Romela Tolentino" },
+  { role: "Bridesmaid", name: "Emmalyn Lipio" },
+  { role: "Bridesmaid", name: "Carmen Pascual" },
+  { role: "Bridesmaid", name: "Ciddie Manota" },
 
   // Groomsmen
-  // { role: "Groomsman", name: "Noah Alcaria" },
-  // { role: "Groomsman", name: "Jervin Garcia" },
-  // { role: "Groomsman", name: "Myric Mateo" },
-  // { role: "Groomsman", name: "Caughvan Faustino" },
-  // { role: "Groomsman", name: "Jayson Torquiano" },
-  // { role: "Groomsman", name: "Jendah Egino" },
-  // { role: "Groomsman", name: "Vincent Saguinsin" },
-  // { role: "Groomsman", name: "Frederick Manota" },
-  // { role: "Groomsman", name: "Emerson Sulit" },
+  { role: "Groomsman", name: "Noah Alcaria" },
+  { role: "Groomsman", name: "Jervin Garcia" },
+  { role: "Groomsman", name: "Myric Mateo" },
+  { role: "Groomsman", name: "Caughvan Faustino" },
+  { role: "Groomsman", name: "Jayson Torquiano" },
+  { role: "Groomsman", name: "Jendah Egino" },
+  { role: "Groomsman", name: "Vincent Saguinsin" },
+  { role: "Groomsman", name: "Frederick Manota" },
+  { role: "Groomsman", name: "Emerson Sulit" },
 
   // Secondary Sponsors
   // Candle Sponsors
-  // { role: "Bridesmaid", name: "Romela Tolentino", group: "candle" },
+  { role: "Bridesmaid", name: "Romela Tolentino", group: "candle" },
   // Cord Sponsors
-  // { role: "Bridesmaid", name: "Emmalyn Lipio", group: "cord" },
+  { role: "Bridesmaid", name: "Emmalyn Lipio", group: "cord" },
 
   // Flower Girls and Little Bride
-  // { role: "Flower Girl", name: "Kirsten Elija Leyson" },
-  // { role: "Flower Girl", name: "Blake Juan" },
-  // { role: "Flower Girl", name: "Reign Arastel Rivera" },
-  // { role: "Little Bride", name: "Paige Yael Ticbaen" },
+  { role: "Flower Girl", name: "Kirsten Elija Leyson" },
+  { role: "Flower Girl", name: "Blake Juan" },
+  { role: "Flower Girl", name: "Reign Arastel Rivera" },
+  { role: "Little Bride", name: "Paige Yael Ticbaen" },
 
   // Ring / Coin Bearers
-  // { role: "Ring Bearer", name: "Khaleb Dwayne M. Beltran" },
-  // { role: "Coin Bearer", name: "Lucas Rhaiden Beltran" },
-  // { role: "Ring Bearer", name: "Dean James Ticbaen" },
+  { role: "Ring Bearer", name: "Khaleb Dwayne M. Beltran" },
+  { role: "Coin Bearer", name: "Lucas Rhaiden Beltran" },
+  { role: "Ring Bearer", name: "Dean James Ticbaen" },
 ]
 
 export const principalSponsors = [
