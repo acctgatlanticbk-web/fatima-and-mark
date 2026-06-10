@@ -13,6 +13,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://arra-and-robert.weddinginvitationrsvp.com/sitemap.xml",
+    sitemap: "https://karla-kaye-and-felix-jr-invitation.weddinginvitationrsvp.com/sitemap.xml",
   }
 }
