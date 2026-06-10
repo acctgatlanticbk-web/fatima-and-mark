@@ -20,7 +20,7 @@ export const siteConfig = {
     entourage: "https://script.google.com/macros/s/AKfycbyGlfi9VGZvLTKqnEq8gExPj7hdmHGpf5g_FK_8zqD5ykJVgWqggCwljr7T6YKS8n5n/exec",  //done
     sponsors: "https://script.google.com/macros/s/AKfycbwe788KcaYXkSdjX1-AsBbhLc8FkU8d7xar-yiScOOFTmHr2pI36sDDj4kDVroqgJ8m/exec",  //done
     weddingDetails: "https://script.google.com/macros/s/AKfycbyUpOW3O9U3KRUylMnSkVaFcc-LwUv1mkb3d0YrkZwfU31ErCGedIvxrCan8gYllSUZ/exec",   //done
-    proposalResponses: "https://script.google.com/macros/s/AKfycbz7-688KcaYXkSdjX1-AsBbhLc8FkU8d7xar-yiScOOFTmHr2pI36sDDj4kDVroqgJ8m/exec",  //done
+    proposalResponses: "https://script.google.com/macros/s/AKfycbxrFIvR2m2CbYyS9NE8WOkmw_fQhmCGcyAUpUgyqR75FaMuiKOK9WpGTj7RHughrTI8/exec",  //done
 ////google share 
     googleShare: "https://docs.google.com/spreadsheets/d/1pDrDKrfwtEbFZHfQnxyp8ALxxC59ymURp9D91jdwqAM/edit?usp=sharing", //done
   },
