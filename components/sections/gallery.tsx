@@ -415,7 +415,7 @@ export function Gallery() {
                 </>
               )}
 
-              {!isLoading && (
+              {/* {!isLoading && (
                 <div className="mt-8 sm:mt-10 flex justify-center">
                   <Link
                     href="/gallery"
@@ -424,7 +424,7 @@ export function Gallery() {
                     View full gallery
                   </Link>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
