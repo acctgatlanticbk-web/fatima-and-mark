@@ -6,6 +6,12 @@ import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { useSiteConfig } from "@/hooks/use-site-config"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel"
 
 const CORNER_DECO_CLASS =
   "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80"
@@ -71,6 +77,123 @@ const galleryItems = [
 
 ]
 
+type GalleryItem = { image: string; text: string }
+
+function GalleryMobileCarousel({
+  items,
+  onOpen,
+}: {
+  items: GalleryItem[]
+  onOpen: (item: GalleryItem, index: number) => void
+}) {
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    if (!api) return
+
+    const onSelect = () => setCurrent(api.selectedScrollSnap())
+    onSelect()
+    api.on("select", onSelect)
+    api.on("reInit", onSelect)
+
+    return () => {
+      api.off("select", onSelect)
+      api.off("reInit", onSelect)
+    }
+  }, [api])
+
+  return (
+    <div className="relative">
+      <Carousel
+        setApi={setApi}
+        opts={{ align: "center", loop: true, dragFree: false }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-3">
+          {items.map((item, index) => {
+            const isActive = index === current
+            return (
+              <CarouselItem key={item.image + index} className="pl-3 basis-[88%]">
+                <button
+                  type="button"
+                  className={`group relative w-full overflow-hidden rounded-xl border bg-white/10 backdrop-blur-sm transition-all duration-500 ease-out ${
+                    isActive
+                      ? "border-white/50 shadow-[0_12px_40px_rgba(0,0,0,0.2)] scale-100"
+                      : "border-white/15 scale-[0.94] opacity-70"
+                  }`}
+                  onClick={() => onOpen(item, index)}
+                  aria-label={`Open image ${index + 1}`}
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden">
+                    <Image
+                      src={item.image}
+                      alt={item.text || `Gallery image ${index + 1}`}
+                      fill
+                      sizes="88vw"
+                      className={`object-cover transition-transform duration-700 ease-out ${
+                        isActive ? "scale-100" : "scale-105"
+                      }`}
+                    />
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent transition-opacity duration-300 ${
+                        isActive ? "opacity-100" : "opacity-40"
+                      }`}
+                    />
+                  </div>
+
+                  <div className="absolute top-2 right-2 backdrop-blur-sm rounded-full px-2.5 py-1 bg-black/50 border border-white/10">
+                    <span className="text-xs font-medium text-white">
+                      {index + 1}/{items.length}
+                    </span>
+                  </div>
+                </button>
+              </CarouselItem>
+            )
+          })}
+        </CarouselContent>
+
+        <button
+          type="button"
+          onClick={() => api?.scrollPrev()}
+          className="absolute left-0 top-[42%] z-10 -translate-y-1/2 rounded-full p-2 bg-black/35 backdrop-blur-md border border-white/25 text-white transition-all hover:bg-black/50 active:scale-95"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft className="h-5 w-5" />
+        </button>
+        <button
+          type="button"
+          onClick={() => api?.scrollNext()}
+          className="absolute right-0 top-[42%] z-10 -translate-y-1/2 rounded-full p-2 bg-black/35 backdrop-blur-md border border-white/25 text-white transition-all hover:bg-black/50 active:scale-95"
+          aria-label="Next slide"
+        >
+          <ChevronRight className="h-5 w-5" />
+        </button>
+      </Carousel>
+
+      <div className="mt-4 flex items-center justify-center gap-1.5">
+        {items.map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            onClick={() => api?.scrollTo(index)}
+            aria-label={`Go to slide ${index + 1}`}
+            className={`rounded-full transition-all duration-300 ${
+              index === current
+                ? "h-2 w-6 bg-white"
+                : "h-2 w-2 bg-white/35 hover:bg-white/55"
+            }`}
+          />
+        ))}
+      </div>
+
+      <p className={`${cormorant.className} mt-2 text-center text-xs tracking-wide text-white/70`}>
+        Swipe or tap arrows to explore
+      </p>
+    </div>
+  )
+}
+
 export function Gallery() {
   const siteConfig = useSiteConfig()
   const sectionRef = useRef<HTMLElement>(null)
@@ -87,6 +210,7 @@ export function Gallery() {
   const [pinchStartScale, setPinchStartScale] = useState(1)
   const [lastTap, setLastTap] = useState(0)
   const [panStart, setPanStart] = useState<{ x: number; y: number; panX: number; panY: number } | null>(null)
+  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null)
 
   useEffect(() => {
     // Simulate loading for better UX
@@ -116,6 +240,7 @@ export function Gallery() {
   }, [])
 
   const navigateImage = useCallback((direction: 'prev' | 'next') => {
+    setSlideDirection(direction === 'next' ? 'left' : 'right')
     setCurrentIndex((prevIndex) => {
       let newIndex = prevIndex
       if (direction === 'next') {
@@ -126,6 +251,7 @@ export function Gallery() {
       setSelectedImage(galleryItems[newIndex])
       return newIndex
     })
+    setTimeout(() => setSlideDirection(null), 300)
   }, [])
 
   useEffect(() => {
@@ -243,46 +369,15 @@ export function Gallery() {
                 </div>
               ) : (
                 <>
-                  {/* Mobile: swipeable sliding gallery */}
+                  {/* Mobile: Embla carousel */}
                   <div className="sm:hidden">
-                    <div
-                      className="flex gap-3 overflow-x-auto px-1 pb-3 snap-x snap-mandatory scroll-px-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                      aria-label="Gallery carousel"
-                    >
-                      {galleryItems.map((item, index) => (
-                        <button
-                          key={item.image + index}
-                          type="button"
-                          className="group relative snap-center shrink-0 w-[82%] overflow-hidden rounded-lg border border-white/25 bg-white/10 backdrop-blur-sm transition-all duration-300 active:border-white/40"
-                          onClick={() => {
-                            setSelectedImage(item)
-                            setCurrentIndex(index)
-                          }}
-                          aria-label={`Open image ${index + 1}`}
-                        >
-                          {/* <div className="relative aspect-[3/4] overflow-hidden">
-                            <Image
-                              src={item.image}
-                              alt={item.text || `Gallery image ${index + 1}`}
-                              fill
-                              sizes="82vw"
-                              className="object-cover transition-transform duration-500 group-active:scale-[1.02]"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-active:opacity-100 transition-opacity duration-300" />
-                          </div> */}
-
-                          <div className="absolute top-2 right-2 backdrop-blur-sm rounded-full px-2 py-1 bg-black/50">
-                            <span className="text-xs font-medium text-white">
-                              {index + 1}/{galleryItems.length}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-
-                    <p className={`${cormorant.className} mt-2 text-center text-xs tracking-wide text-white/70`}>
-                      Swipe to explore
-                    </p>
+                    <GalleryMobileCarousel
+                      items={galleryItems}
+                      onOpen={(item, index) => {
+                        setSelectedImage(item)
+                        setCurrentIndex(index)
+                      }}
+                    />
                   </div>
 
                   {/* Tablet/Desktop: grid */}
@@ -400,8 +495,8 @@ export function Gallery() {
             {/* Top bar with counter and close */}
             <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between p-4 sm:p-6">
               {/* Image counter */}
-              <div className="backdrop-blur-md rounded-full px-4 py-2 border" style={{ backgroundColor: "rgba(0,0,0,0.4)", borderColor: 'color-mix(in srgb, var(--color-motif-accent) 50%, transparent)' }}>
-                <span className="text-sm sm:text-base font-medium text-motif-cream">
+              <div className="backdrop-blur-md rounded-full px-4 py-2 border bg-black/40 border-white/20">
+                <span className="text-sm sm:text-base font-medium text-white">
                   {currentIndex + 1} / {galleryItems.length}
                 </span>
               </div>
@@ -456,6 +551,7 @@ export function Gallery() {
                 onClick={(e) => e.stopPropagation()}
               >
                 <Image
+                  key={selectedImage.image}
                   src={selectedImage.image || "/placeholder.svg"}
                   alt={selectedImage.text || "Gallery image"}
                   width={1200}
@@ -463,10 +559,24 @@ export function Gallery() {
                   sizes="100vw"
                   priority
                   style={{
-                    transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${zoomScale})`,
-                    transition: pinchStartDist ? "none" : "transform 200ms ease-out",
+                    transform: `translate3d(${
+                      pan.x + (zoomScale === 1 && touchStartX !== null ? touchDeltaX : 0)
+                    }px, ${pan.y}px, 0) scale(${zoomScale})`,
+                    transition:
+                      pinchStartDist || touchStartX !== null
+                        ? "none"
+                        : slideDirection
+                          ? "transform 280ms cubic-bezier(0.22, 1, 0.36, 1), opacity 280ms ease"
+                          : "transform 200ms ease-out",
+                    opacity: slideDirection ? 0.85 : 1,
                   }}
-                  className="max-w-full max-h-[75vh] w-auto h-auto sm:max-h-[85vh] object-contain rounded-lg shadow-2xl will-change-transform"
+                  className={`max-w-full max-h-[75vh] w-auto h-auto sm:max-h-[85vh] object-contain rounded-lg shadow-2xl will-change-transform ${
+                    slideDirection
+                      ? `animate-in fade-in duration-300 ${
+                          slideDirection === "left" ? "slide-in-from-right-8" : "slide-in-from-left-8"
+                        }`
+                      : ""
+                  }`}
                 />
                 
                 {/* Zoom reset button */}
