@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
+import { createPortal } from "react-dom"
 import { Section } from "@/components/section"
 import {
   Search,
@@ -17,8 +18,10 @@ import {
   Phone,
   UserPlus,
   Users,
+  ChevronRight,
 } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
+import Image from "next/image"
 import { useSiteConfig } from "@/hooks/use-site-config"
 
 const cormorant = Cormorant_Garamond({
@@ -28,8 +31,39 @@ const cormorant = Cormorant_Garamond({
 
 const cinzel = Cinzel({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "600"],
 })
+
+const CORNER_DECO_CLASS =
+  "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80 drop-shadow-[0_10px_28px_rgba(0,0,0,0.35)]"
+
+const GLASS_CARD_CLASS =
+  "relative overflow-hidden rounded-xl sm:rounded-2xl border border-white/30 bg-white/15 backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.22),0_4px_14px_rgba(0,0,0,0.14)] transition-all duration-300 hover:border-white/40"
+
+const GLASS_INNER_CLASS =
+  "rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 p-3 sm:p-4 md:p-5"
+
+const SUGGESTION_DROPDOWN_CLASS =
+  "fixed z-[9999] rounded-xl sm:rounded-2xl border border-white/60 bg-white shadow-[0_24px_64px_rgba(0,0,0,0.28),0_8px_24px_rgba(0,0,0,0.14)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+
+function highlightNameMatch(name: string, query: string) {
+  const normalizedQuery = query.trim().toLowerCase()
+  if (!normalizedQuery) return name
+
+  const lowerName = name.toLowerCase()
+  const matchIndex = lowerName.indexOf(normalizedQuery)
+  if (matchIndex === -1) return name
+
+  return (
+    <>
+      {name.slice(0, matchIndex)}
+      <span className="font-bold text-[#7D7F2E]">
+        {name.slice(matchIndex, matchIndex + normalizedQuery.length)}
+      </span>
+      {name.slice(matchIndex + normalizedQuery.length)}
+    </>
+  )
+}
 
 interface ApiGuest {
   id: string | number
@@ -98,6 +132,44 @@ export function GuestList() {
   })
 
   const searchRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const [dropdownPos, setDropdownPos] = useState<{ top: number; left: number; width: number } | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  const showSuggestions = isSearching && filteredGuests.length > 0
+  const showNotFound = Boolean(searchQuery.trim()) && filteredGuests.length === 0 && !isLoading
+  const showDropdown = showSuggestions || showNotFound
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const updateDropdownPosition = useCallback(() => {
+    if (!inputRef.current) return
+    const rect = inputRef.current.getBoundingClientRect()
+    setDropdownPos({
+      top: rect.bottom + 8,
+      left: rect.left,
+      width: rect.width,
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!showDropdown) {
+      setDropdownPos(null)
+      return
+    }
+
+    updateDropdownPosition()
+    window.addEventListener("scroll", updateDropdownPosition, true)
+    window.addEventListener("resize", updateDropdownPosition)
+
+    return () => {
+      window.removeEventListener("scroll", updateDropdownPosition, true)
+      window.removeEventListener("resize", updateDropdownPosition)
+    }
+  }, [showDropdown, searchQuery, filteredGuests, updateDropdownPosition])
 
   // Update companions array based on allowedGuests when a guest is selected
   useEffect(() => {
@@ -186,7 +258,10 @@ export function GuestList() {
   // Close search dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      const target = event.target as Node
+      const insideSearch = searchRef.current?.contains(target)
+      const insideDropdown = dropdownRef.current?.contains(target)
+      if (!insideSearch && !insideDropdown) {
         setIsSearching(false)
       }
     }
@@ -235,8 +310,9 @@ export function GuestList() {
 
   const handleSearchSelect = (guest: Guest) => {
     setSelectedGuest(guest)
-    setSearchQuery(guest.Name)
+    setSearchQuery("")
     setIsSearching(false)
+    setDropdownPos(null)
     
     // Set form data with existing guest info
     setFormData({
@@ -395,161 +471,215 @@ export function GuestList() {
   }
 
   return (
-    <Section id="guest-list" className="relative z-30 py-6 sm:py-10 md:py-12 lg:py-16">
+    <Section
+      id="guest-list"
+      className="relative z-20 py-16 sm:py-20 md:py-24 lg:py-28 overflow-visible"
+    >
+      {/* Corner decorations — reflected to all four corners */}
+      <div className="absolute right-0 top-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/right-top-deco.png"
+          alt=""
+          width={300}
+          height={300}
+          className={CORNER_DECO_CLASS}
+          priority={false}
+          aria-hidden
+        />
+      </div>
+      <div className="absolute left-0 top-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/right-top-deco.png"
+          alt=""
+          width={300}
+          height={300}
+          className={`${CORNER_DECO_CLASS} scale-x-[-1]`}
+          priority={false}
+          aria-hidden
+        />
+      </div>
+      <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/left-bottom-deco.png"
+          alt=""
+          width={300}
+          height={300}
+          className={CORNER_DECO_CLASS}
+          priority={false}
+          aria-hidden
+        />
+      </div>
+      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/left-bottom-deco.png"
+          alt=""
+          width={300}
+          height={300}
+          className={`${CORNER_DECO_CLASS} scale-x-[-1]`}
+          priority={false}
+          aria-hidden
+        />
+      </div>
+
       {/* Header */}
-      <div className="relative z-10 text-center mb-4 sm:mb-6 md:mb-8 lg:mb-10 px-2 sm:px-3 md:px-4">
-        {/* Small label */}
-        <p
-          className={`${cormorant.className} text-xs sm:text-sm md:text-base uppercase tracking-[0.28em] text-white mb-2`}
-          style={{ textShadow: "0 2px 10px rgba(0,0,0,0.8)" }}
-        >
-          CONFIRM YOUR ATTENDANCE (RSVP)
-        </p>
-        
+      <div className="relative z-10 text-center mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6">
+        {/* <div className="flex items-center justify-center gap-2 mb-4 sm:mb-5">
+          <div className="h-px w-16 sm:w-24 bg-white/40" />
+          <div className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-[0_0_18px_rgba(255,255,255,0.25)]" />
+          <div className="h-px w-16 sm:w-24 bg-white/40" />
+        </div> */}
         <h2
-          className={`${cinzel.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-1.5 sm:mb-3 md:mb-4`}
-          style={{ textShadow: "0 4px 18px rgba(0,0,0,0.85)" }}
+          className="leading-none text-white"
+          style={{
+            fontFamily: "var(--font-brittany), cursive",
+            fontSize: "clamp(2rem, 9vw, 4.5rem)",
+            letterSpacing: "0.01em",
+            textShadow: "0 3px 16px rgba(0,0,0,0.25)",
+          }}
         >
           RSVP
         </h2>
-        
-        <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-2 mb-2 sm:mb-3`}>
-        To help us plan a beautiful and intimate celebration, we kindly ask that you confirm your attendance. Please search for your name below to confirm your presence at our special day
+        <p
+          className={`${cinzel.className} text-sm sm:text-base md:text-lg text-white/90 font-normal max-w-xl mx-auto leading-relaxed tracking-[0.14em] px-4 mt-2`}
+          style={{ textShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+        >
+          Confirm your attendance for our special day.
         </p>
-        
-        <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-2 mb-2 sm:mb-3`}>
-        If we do not receive your response by the deadline, we will assume you are unable to attend.
-Thank you for your love and support. We truly look forward to celebrating this special day with you.
+        <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-4 mt-4 mb-2`}>
+          To help us plan a beautiful and intimate celebration, we kindly ask that you confirm your attendance. Please search for your name below to confirm your presence at our special day.
         </p>
-        {/* <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-2 mb-2 sm:mb-3`}>
-          Phone: {siteConfig.details.rsvp.phone}
-        </p> */}
-        <p className={`${cormorant.className} text-sm sm:text-base md:text-lg lg:text-xl text-white font-bold max-w-xl mx-auto leading-relaxed px-2 mb-2 sm:mb-3`}>
+        <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-4 mb-2`}>
+          If we do not receive your response by the deadline, we will assume you are unable to attend. Thank you for your love and support. We truly look forward to celebrating this special day with you.
+        </p>
+        <p className={`${cinzel.className} text-sm sm:text-base md:text-lg text-white font-semibold max-w-xl mx-auto leading-relaxed px-4 tracking-[0.1em]`}>
           RSVP Deadline: {siteConfig.details.rsvp.deadline}
         </p>
-        
-        {/* Decorative element below subtitle */}
-        <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-2 sm:mt-3 md:mt-4 lg:mt-5">
-          <div className="w-6 sm:w-8 md:w-12 lg:w-16 h-px bg-gradient-to-r from-transparent via-motif-deep/80 to-transparent" />
-          <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-motif-deep/90 rounded-full" />
-          <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-white/85 rounded-full" />
-          <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-motif-deep/90 rounded-full" />
-          <div className="w-6 sm:w-8 md:w-12 lg:w-16 h-px bg-gradient-to-l from-transparent via-motif-deep/80 to-transparent" />
-        </div>
       </div>
 
       {/* Search Section */}
-      <div className="relative z-10 max-w-2xl mx-auto px-2 sm:px-4 md:px-6 overflow-visible">
-        {/* Card with elegant border */}
-        <div className="relative bg-white/10 backdrop-blur-md border border-motif-deep/60 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg overflow-visible">
-          {/* Card content */}
-          <div className="relative p-2.5 sm:p-4 md:p-5 lg:p-6 overflow-visible">
-            <div className="relative z-10 space-y-3 sm:space-y-4 overflow-visible">
+      <div className="relative z-30 max-w-2xl mx-auto px-4 sm:px-6">
+        <div className={`${GLASS_CARD_CLASS} !overflow-visible`}>
+          <div className="relative p-3 sm:p-5 md:p-7 lg:p-9">
+            <div className={`${GLASS_INNER_CLASS} space-y-3 sm:space-y-4`}>
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="bg-motif-deep p-1.5 sm:p-2 rounded-lg shadow-md">
+                <div className="bg-white/20 p-1.5 sm:p-2 rounded-lg border border-white/30">
                   <Search className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-white" />
                 </div>
                 <div>
-                  <label className="block text-xs sm:text-sm md:text-base font-semibold text-white font-sans mb-0.5 sm:mb-1">
+                  <label className={`block text-xs sm:text-sm md:text-base font-semibold text-white mb-0.5 sm:mb-1 ${cinzel.className} tracking-wide uppercase`}>
                     Find Your Name
                   </label>
-                  <p className="text-[10px] sm:text-xs text-white font-sans">
+                  <p className={`text-[10px] sm:text-xs text-white/80 ${cormorant.className}`}>
                     Type as you search to see instant results
                   </p>
                 </div>
               </div>
-              <div ref={searchRef} className="relative z-[100]">
+              <div ref={searchRef} className="relative">
                 <div className="relative">
-                  <Search className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-motif-deep/70 pointer-events-none transition-colors duration-200" />
+                  <Search className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#7D7F2E]/70 pointer-events-none transition-colors duration-200" />
                   <input
+                    ref={inputRef}
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={updateDropdownPosition}
                     placeholder="Type your name..."
-                    className="w-full pl-8 sm:pl-10 pr-2.5 sm:pr-3 py-2 sm:py-2.5 md:py-3 border-2 border-motif-deep/60 focus:border-motif-deep rounded-lg text-xs sm:text-sm font-sans text-motif-deep placeholder:text-motif-medium/70 transition-all duration-300 hover:border-motif-deep/70 focus:ring-2 focus:ring-motif-deep/20 bg-white shadow-sm focus:shadow-md"
+                    className="w-full pl-8 sm:pl-10 pr-2.5 sm:pr-3 py-2 sm:py-2.5 md:py-3 border border-white/40 focus:border-white/60 rounded-lg text-xs sm:text-sm font-sans text-[#3E2914] placeholder:text-[#7D7F2E]/60 transition-all duration-300 hover:border-white/50 focus:ring-2 focus:ring-white/20 bg-white/95 shadow-sm focus:shadow-md"
+                    aria-expanded={showDropdown}
+                    aria-haspopup="listbox"
+                    autoComplete="off"
                   />
                 </div>
-                {/* Autocomplete dropdown */}
-                {isSearching && filteredGuests.length > 0 && (
-                  <div 
-                    className="absolute z-[9999] w-full mt-1 sm:mt-1.5 md:mt-2 bg-white/95 backdrop-blur-lg border border-motif-deep/70 rounded-lg sm:rounded-xl shadow-xl overflow-hidden" 
-                    style={{ 
-                      position: 'absolute', 
-                      top: '100%',
-                      left: 0,
-                      right: 0
-                    }}
-                  >
-                    {filteredGuests.map((guest, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleSearchSelect(guest)}
-                        className="w-full px-2.5 sm:px-3 py-2 sm:py-2.5 text-left hover:bg-motif-cream/40 active:bg-motif-deep/40 transition-all duration-200 flex items-center gap-2 sm:gap-3 border-b border-motif-deep/40 last:border-b-0 group"
-                      >
-                        <div className="relative flex-shrink-0">
-                          <div className="bg-motif-deep p-1 sm:p-1.5 rounded-full shadow-sm group-hover:shadow-md transition-all duration-300">
-                            <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-white" />
-                          </div>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-semibold text-xs sm:text-sm text-motif-deep group-hover:text-motif-deep transition-colors duration-200 truncate">
-                            {guest.Name}
-                          </div>
-                          {guest.Email && guest.Email !== "Pending" && (
-                            <div className="text-[10px] sm:text-xs text-motif-medium/80 truncate mt-0.5">
-                              {guest.Email}
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-motif-medium/70 group-hover:text-motif-deep group-hover:translate-x-1 transition-all duration-200 flex-shrink-0">
-                          <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
-                {searchQuery && filteredGuests.length === 0 && (
-                  <div 
-                    className="absolute z-[9999] w-full mt-1.5 sm:mt-2 bg-white/95 backdrop-blur-lg border-2 border-motif-deep/80 rounded-lg shadow-xl overflow-hidden" 
-                    style={{ 
-                      position: 'absolute', 
-                      top: '100%',
-                      left: 0,
-                      right: 0
-                    }}
-                  >
-                    <div className="p-2.5 sm:p-3 md:p-4">
-                      <div className="flex items-start gap-2 sm:gap-3 mb-2 sm:mb-3">
-                        <div className="bg-motif-deep p-1.5 sm:p-2 rounded-lg flex-shrink-0 shadow-sm">
-                          <UserPlus className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-semibold text-xs sm:text-sm text-motif-deep mb-1">Not finding your name?</h4>
-                          <p className="text-[10px] sm:text-xs text-motif-medium leading-relaxed">
-                            We'd love to have you with us! Send a request to join the celebration.
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => {
-                          setRequestFormData({ ...requestFormData, Name: searchQuery })
-                          setShowRequestModal(true)
-                        }}
-                        className="w-full !bg-motif-deep hover:!bg-motif-deep/90 text-white py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold shadow-md transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center"
-                      >
-                        <UserPlus className="h-3 w-3 mr-1.5 sm:mr-2 inline" />
-                        Request to Join
-                      </button>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Portaled suggestion dropdown — escapes section overflow & stacks above next section */}
+      {mounted && showDropdown && dropdownPos && createPortal(
+        <div
+          ref={dropdownRef}
+          role="listbox"
+          className={SUGGESTION_DROPDOWN_CLASS}
+          style={{
+            top: dropdownPos.top,
+            left: dropdownPos.left,
+            width: dropdownPos.width,
+          }}
+        >
+          {showSuggestions ? (
+            <>
+              <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 border-b border-[#7D7F2E]/10 bg-gradient-to-r from-[#7D7F2E]/8 to-transparent">
+                <p className={`${cinzel.className} text-[10px] sm:text-xs uppercase tracking-[0.18em] text-[#7D7F2E] font-semibold`}>
+                  Matching Guests
+                </p>
+                <span className={`${cormorant.className} text-[10px] sm:text-xs text-[#7D7F2E]/70`}>
+                  {filteredGuests.length} found
+                </span>
+              </div>
+              <ul className="max-h-[min(280px,50vh)] overflow-y-auto overscroll-contain py-1">
+                {filteredGuests.map((guest, index) => (
+                  <li key={guest.id ?? index}>
+                    <button
+                      type="button"
+                      role="option"
+                      onClick={() => handleSearchSelect(guest)}
+                      className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-left hover:bg-[#7D7F2E]/8 active:bg-[#7D7F2E]/12 transition-all duration-200 flex items-center gap-3 sm:gap-4 group"
+                    >
+                      <div className="relative flex-shrink-0">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-[#7D7F2E] to-[#6a6c27] flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
+                          <User className="h-4 w-4 sm:h-[18px] sm:w-[18px] text-white" />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className={`${cinzel.className} text-sm sm:text-base text-[#3E2914] truncate`}>
+                          {highlightNameMatch(guest.Name, searchQuery)}
+                        </div>
+                        {guest.Email && guest.Email !== "Pending" && (
+                          <div className={`${cormorant.className} text-[10px] sm:text-xs text-[#7D7F2E]/75 truncate mt-0.5 flex items-center gap-1`}>
+                            <Mail className="h-3 w-3 flex-shrink-0 opacity-70" />
+                            {guest.Email}
+                          </div>
+                        )}
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-[#7D7F2E]/50 group-hover:text-[#7D7F2E] group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <div className="p-3 sm:p-4 md:p-5">
+              <div className="flex items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br from-[#7D7F2E] to-[#6a6c27] flex items-center justify-center flex-shrink-0 shadow-md">
+                  <UserPlus className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h4 className={`${cinzel.className} text-sm sm:text-base text-[#3E2914] mb-1 tracking-wide`}>
+                    Not finding your name?
+                  </h4>
+                  <p className={`${cormorant.className} text-xs sm:text-sm text-[#7D7F2E]/90 leading-relaxed`}>
+                    We&apos;d love to have you with us! Send a request to join the celebration.
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setRequestFormData({ ...requestFormData, Name: searchQuery })
+                  setShowRequestModal(true)
+                }}
+                className="w-full bg-[#7D7F2E] hover:bg-[#6a6c27] text-white py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-semibold shadow-[0_8px_24px_rgba(125,127,46,0.35)] transition-all duration-300 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+              >
+                <UserPlus className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                Request to Join
+              </button>
+            </div>
+          )}
+        </div>,
+        document.body
+      )}
 
       {/* RSVP Modal */}
       {showModal && (

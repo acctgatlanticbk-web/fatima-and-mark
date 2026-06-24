@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Heart, RefreshCw, TrendingUp, Mail, Users, MapPin, Calendar, Crown } from "lucide-react"
+import { RefreshCw, TrendingUp, Users, MapPin, Calendar, Crown } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import Image from "next/image"
 
@@ -34,23 +34,37 @@ interface Guest {
 
 const CARDS_PER_VIEW = 4
 
-const textColor = "color-mix(in srgb, var(--color-motif-cream) 50%, white)"
-const cardTextColor = "var(--color-motif-soft)"
-const accentColor = "var(--color-motif-accent)"
-const cardBg = "color-mix(in srgb, var(--color-motif-cream) 18%, white)"
-const DECO_FILTER =
-  "brightness(0) saturate(100%) invert(100%) drop-shadow(0 8px 20px color-mix(in srgb, var(--color-motif-soft) 55%, transparent))"
+const CORNER_DECO_CLASS =
+  "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80"
+
+const GLASS_CARD_CLASS =
+  "relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-white/25 bg-white/15 backdrop-blur-lg shadow-[0_20px_70px_rgba(0,0,0,0.12)]"
+
+function GlassOverlay() {
+  return (
+    <div className="pointer-events-none absolute inset-0" aria-hidden>
+      <div
+        className="absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2"
+        style={{ background: "radial-gradient(circle at center, color-mix(in srgb, white 8%, transparent), transparent 60%)" }}
+      />
+      <div
+        className="absolute bottom-[-6rem] right-[-2rem] h-64 w-64"
+        style={{ background: "radial-gradient(circle at center, color-mix(in srgb, white 6%, transparent), transparent 60%)" }}
+      />
+    </div>
+  )
+}
 
 function MotifDivider() {
   return (
     <div className="flex items-center justify-center gap-2">
-      <span className="h-px w-10 rounded-full bg-motif-accent/60 sm:w-14" />
+      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
       <div className="flex gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-80" />
-        <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-50" />
-        <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-80" />
+        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
+        <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
+        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
       </div>
-      <span className="h-px w-10 rounded-full bg-motif-accent/60 sm:w-14" />
+      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
     </div>
   )
 }
@@ -193,126 +207,98 @@ export function BookOfGuests() {
   }, [confirmedGuests.length])
 
   return (
+    <div className="relative w-full bg-[#7D7F2E]">
     <div
       id="guests"
-      className="relative z-10 overflow-hidden isolate bg-transparent py-4 sm:py-8 md:py-12 lg:py-16"
+      className="relative z-10 overflow-hidden py-12 sm:py-16 md:py-20"
     >
-      {/* Flower decoration */}
-      {/* <div className="absolute left-0 top-0 z-0 pointer-events-none">
+      {/* Corner decorations */}
+      <div className="absolute left-0 top-0 z-0 pointer-events-none">
         <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
+          src="/decoration/top-left-deco.png"
           alt=""
           width={300}
           height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-70 scale-y-[-1]"
+          className={CORNER_DECO_CLASS}
           priority={false}
-          style={{ filter: DECO_FILTER }}
+          aria-hidden
         />
-      </div> */}
-      {/* <div className="absolute right-0 top-0 z-0 pointer-events-none">
+      </div>
+      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
         <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
+          src="/decoration/bottom-right-deco.png"
           alt=""
           width={300}
           height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-70 scale-x-[-1] scale-y-[-1]"
+          className={CORNER_DECO_CLASS}
           priority={false}
-          style={{ filter: DECO_FILTER }}
+          aria-hidden
         />
-      </div> */}
-      {/* <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-70"
-          priority={false}
-          style={{ filter: DECO_FILTER }}
-        />
-      </div> */}
-      {/* <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
-          alt=""
-          width={300}
-          height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-70 scale-x-[-1]"
-          priority={false}
-          style={{ filter: DECO_FILTER }}
-        />
-      </div> */}
+      </div>
 
       {/* Section Header */}
-      <div className="relative z-10 text-center mb-3 sm:mb-4 md:mb-6 px-2 sm:px-3 md:px-4">
+      <div className="relative z-10 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4">
         <p
-          className={`${cormorant.className} text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.25em] mb-1 sm:mb-1.5 mt-4 sm:mt-6 md:mt-8`}
-          style={{ color: textColor }}
+          className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] mb-2 text-white/90`}
         >
           Our Cherished Guests
         </p>
-        {/* <MotifDivider /> */}
+        <MotifDivider />
         <h2
-          className="leading-none"
+          className="leading-none text-white"
           style={{
             fontFamily: "var(--font-brittany), cursive",
             fontSize: "clamp(2rem, 9vw, 4.5rem)",
-            color: textColor,
             letterSpacing: "0.01em",
-            textShadow: "0 2px 12px color-mix(in srgb, var(--color-motif-accent) 45%, transparent)",
+            textShadow: "0 2px 12px rgba(0,0,0,0.15)",
             marginTop: "10px",
           }}
         >
           Book of Guests
         </h2>
         <p
-          className={`${cormorant.className} text-[10px] sm:text-xs md:text-sm font-light max-w-lg mx-auto leading-relaxed px-2 mt-2 sm:mt-2.5`}
-          style={{ color: textColor }}
+          className={`${cormorant.className} text-xs sm:text-sm md:text-base font-light max-w-lg mx-auto leading-relaxed px-2 mt-2 sm:mt-2.5 text-white/90`}
         >
           Meet the cherished souls joining us in celebration — your presence makes our day truly special
         </p>
       </div>
 
       {/* Guests content */}
-      <div className="relative">
-        {/* Stats card — cream card with warm brown accents */}
-        <div className="text-center mb-2.5 sm:mb-4 md:mb-6 px-2 sm:px-4 md:px-6">
+      <div className="relative z-10 max-w-5xl mx-auto px-3 sm:px-5">
+        <div className={GLASS_CARD_CLASS}>
+          <GlassOverlay />
+          <div className="relative z-10 p-4 sm:p-5 md:p-6 lg:p-8">
+        {/* Stats */}
+        <div className="text-center mb-6 sm:mb-8 md:mb-10">
           <div className="relative max-w-3xl mx-auto">
-            <div
-              className="relative rounded-xl border border-motif-accent/25 backdrop-blur-md p-3 shadow-lg transition-all duration-300 sm:rounded-2xl sm:p-5 md:p-6"
-              style={{
-                backgroundColor: cardBg,
-                boxShadow: "0 4px 24px color-mix(in srgb, var(--color-motif-soft) 12%, transparent)",
-              }}
-            >
+            <div className="relative">
               <button
                 onClick={() => fetchGuests(true)}
                 disabled={isRefreshing}
-                className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 p-1.5 sm:p-2 rounded-full transition-all duration-300 disabled:opacity-50 group z-10 hover:scale-110"
-                style={{ backgroundColor: "color-mix(in srgb, var(--color-motif-accent) 12%, transparent)" }}
+                className="absolute top-0 right-0 p-1.5 sm:p-2 rounded-full transition-all duration-300 disabled:opacity-50 group z-10 hover:scale-110 bg-white/15 border border-white/20"
                 title="Refresh counts"
               >
-                <RefreshCw className={`h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-500 ${isRefreshing ? "animate-spin" : "group-hover:rotate-180"}`} style={{ color: accentColor }} />
+                <RefreshCw className={`h-3.5 w-3.5 sm:h-4 sm:w-4 text-white transition-transform duration-500 ${isRefreshing ? "animate-spin" : "group-hover:rotate-180"}`} />
               </button>
 
               <div className="mb-1.5 sm:mb-2.5">
                 <div className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap">
-                  <h3 className={`${cinzel.className} text-xl sm:text-3xl md:text-4xl font-bold transition-all duration-500 ${showIncrease ? "scale-110" : ""}`} style={{ color: cardTextColor }}>
+                  <h3 className={`${cinzel.className} text-xl sm:text-3xl md:text-4xl font-bold transition-all duration-500 text-white ${showIncrease ? "scale-110" : ""}`}>
                     {totalGuests}
                   </h3>
                   {showIncrease && (
-                    <TrendingUp className="h-3.5 w-3.5 sm:h-5 sm:w-5 animate-bounce" style={{ color: accentColor }} />
+                    <TrendingUp className="h-3.5 w-3.5 sm:h-5 sm:w-5 animate-bounce text-white/90" />
                   )}
-                  <p className={`${cormorant.className} text-sm sm:text-lg md:text-xl font-medium leading-tight`} style={{ color: cardTextColor }}>
+                  <p className={`${cormorant.className} text-sm sm:text-lg md:text-xl font-medium leading-tight text-white/95`}>
                     {totalGuests === 1 ? "Guest" : "Guests"} Celebrating With Us
                   </p>
                 </div>
               </div>
 
-              <p className={`${cormorant.className} text-xs sm:text-base mb-2 sm:mb-3`} style={{ color: cardTextColor, opacity: 0.9 }}>
+              <p className={`${cormorant.className} text-xs sm:text-base mb-2 sm:mb-3 text-white/90`}>
                 {rsvpCount} {rsvpCount === 1 ? "RSVP entry" : "RSVP entries"}
               </p>
-              <p className={`${cormorant.className} text-[10px] sm:text-xs md:text-sm leading-tight`} style={{ color: cardTextColor, opacity: 0.85 }}>
+              <p className={`${cormorant.className} text-[10px] sm:text-xs md:text-sm leading-tight text-white/85`}>
                 Thank you for confirming your RSVP! Your presence means the world to us.
               </p>
             </div>
@@ -321,7 +307,7 @@ export function BookOfGuests() {
 
         {/* Guest List Display - 4 cards with carousel */}
         {confirmedGuests.length > 0 && (
-          <div className="max-w-5xl mx-auto px-2 sm:px-4 md:px-6">
+          <div>
             <div
               className="relative overflow-hidden"
               style={{
@@ -337,11 +323,8 @@ export function BookOfGuests() {
                 {getVisibleGuests().map((guest, index) => (
                   <div
                     key={`${guest.id}-${currentIndex}-${index}`}
-                    className={`relative group rounded-xl sm:rounded-2xl p-2.5 sm:p-4 md:p-6 transition-all duration-300 border hover:shadow-xl ${justEntered ? "animate-guest-roll-in" : ""}`}
+                    className={`relative group rounded-xl sm:rounded-2xl p-2.5 sm:p-4 md:p-6 transition-all duration-300 bg-white/10 backdrop-blur-sm hover:bg-white/15 hover:scale-[1.01] ${justEntered ? "animate-guest-roll-in" : ""}`}
                     style={{
-                      backgroundColor: cardBg,
-                      borderColor: "color-mix(in srgb, var(--color-motif-accent) 25%, transparent)",
-                      boxShadow: "0 2px 12px color-mix(in srgb, var(--color-motif-soft) 8%, transparent)",
                       ...(justEntered
                         ? {
                             animationDelay: `${index * 120}ms`,
@@ -353,9 +336,9 @@ export function BookOfGuests() {
                   <div className="flex items-start gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-2.5 md:mb-3">
                     <div className="relative flex-shrink-0">
                       <div
-                        className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-md ring-2 ring-white/60 bg-motif-soft"
+                        className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-md bg-white/20 border border-white/30"
                       >
-                        <span className="font-semibold text-xs sm:text-base md:text-lg" style={{ color: textColor }}>
+                        <span className="font-semibold text-xs sm:text-base md:text-lg text-white">
                           {getInitials(guest.name)}
                         </span>
                       </div>
@@ -370,11 +353,11 @@ export function BookOfGuests() {
 
                     <div className="flex-1 min-w-0">
                       <div className="mb-1 sm:mb-1.5">
-                        <h3 className={`${cinzel.className} text-xs sm:text-base md:text-lg font-semibold sm:font-bold leading-tight mb-0.5`} style={{ color: cardTextColor }}>
+                        <h3 className={`${cinzel.className} text-xs sm:text-base md:text-lg font-semibold sm:font-bold leading-tight mb-0.5 text-white`}>
                           {guest.name}
                         </h3>
                         {guest.role && (
-                          <p className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-medium opacity-80`} style={{ color: cardTextColor }}>
+                          <p className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-medium text-white/80`}>
                             {guest.role}
                           </p>
                         )}
@@ -388,25 +371,19 @@ export function BookOfGuests() {
                       )} */}
 
                       <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 md:gap-2 mb-1.5 sm:mb-2 md:mb-3">
-                        <div
-                          className="flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 rounded-lg border"
-                          style={{ backgroundColor: "color-mix(in srgb, var(--color-motif-accent) 10%, transparent)", borderColor: "color-mix(in srgb, var(--color-motif-accent) 25%, transparent)" }}
-                        >
-                          <Users className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 flex-shrink-0" style={{ color: accentColor }} />
-                          <span className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-semibold`} style={{ color: cardTextColor }}>
+                        <div className="flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 rounded-lg border border-white/20 bg-white/10">
+                          <Users className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 flex-shrink-0 text-white/80" />
+                          <span className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-semibold text-white/95`}>
                             {guest.allowedGuests} {guest.allowedGuests === 1 ? "Guest" : "Guests"}
                           </span>
                         </div>
-                        <div
-                          className="flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 rounded-lg border"
-                          style={{ backgroundColor: "color-mix(in srgb, var(--color-motif-accent) 10%, transparent)", borderColor: "color-mix(in srgb, var(--color-motif-accent) 25%, transparent)" }}
-                        >
-                          <MapPin className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 flex-shrink-0" style={{ color: accentColor }} />
-                          <span className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-semibold`} style={{ color: cardTextColor }}>
+                        <div className="flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 rounded-lg border border-white/20 bg-white/10">
+                          <MapPin className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 flex-shrink-0 text-white/80" />
+                          <span className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-semibold text-white/95`}>
                             {guest.tableNumber && guest.tableNumber.trim() !== "" ? (
                               <>Table {guest.tableNumber}</>
                             ) : (
-                              <span className="opacity-65">Not Assigned</span>
+                              <span className="text-white/65">Not Assigned</span>
                             )}
                           </span>
                         </div>
@@ -439,21 +416,20 @@ export function BookOfGuests() {
                       )} */}
 
                       {guest.companions && guest.companions.length > 0 && (
-                        <div className="pt-1.5 sm:pt-2 md:pt-2.5 border-t border-motif-accent/20">
+                        <div className="pt-2 sm:pt-2.5 md:pt-3">
                           <div className="flex items-center gap-1 mb-1 sm:mb-1.5">
-                            <Users className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5" style={{ color: accentColor }} />
-                            <span className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-semibold`} style={{ color: cardTextColor }}>Companions</span>
+                            <Users className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 text-white/80" />
+                            <span className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-semibold text-white/95`}>Companions</span>
                           </div>
                           <div className="flex flex-wrap gap-1 sm:gap-1.5">
                             {guest.companions.map((companion, idx) => (
                               <div
                                 key={idx}
-                                className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 rounded-lg border transition-colors hover:border-opacity-60"
-                                style={{ backgroundColor: "color-mix(in srgb, var(--color-motif-cream) 80%, white)", borderColor: "color-mix(in srgb, var(--color-motif-accent) 20%, transparent)" }}
+                                className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 md:px-2.5 py-0.5 sm:py-1 rounded-lg border border-white/20 bg-white/10 transition-colors hover:bg-white/15"
                               >
-                                <span className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-medium whitespace-nowrap`} style={{ color: cardTextColor }}>{companion.name}</span>
+                                <span className={`${cormorant.className} text-[9px] sm:text-[10px] md:text-xs font-medium whitespace-nowrap text-white/95`}>{companion.name}</span>
                                 {companion.relationship && companion.relationship.trim() !== "" && (
-                                  <span className={`${cormorant.className} text-[8px] sm:text-[9px] md:text-[10px] font-medium px-1.5 sm:px-2 py-0.5 rounded-full border whitespace-nowrap`} style={{ color: cardTextColor, backgroundColor: "color-mix(in srgb, var(--color-motif-accent) 10%, transparent)", borderColor: "color-mix(in srgb, var(--color-motif-accent) 20%, transparent)" }}>
+                                  <span className={`${cormorant.className} text-[8px] sm:text-[9px] md:text-[10px] font-medium px-1.5 sm:px-2 py-0.5 rounded-full border border-white/20 bg-white/10 whitespace-nowrap text-white/85`}>
                                     {companion.relationship}
                                   </span>
                                 )}
@@ -463,9 +439,9 @@ export function BookOfGuests() {
                         </div>
                       )}
 
-                      <div className="flex items-center gap-1 pt-1.5 sm:pt-2 md:pt-2.5 mt-1.5 sm:mt-2 md:mt-2.5 border-t border-motif-accent/15">
-                        <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3 opacity-70" style={{ color: accentColor }} />
-                        <span className={`${cormorant.className} text-[8px] sm:text-[9px] md:text-[10px] opacity-80`} style={{ color: cardTextColor }}>
+                      <div className="flex items-center gap-1 pt-2 sm:pt-2.5 md:pt-3 mt-1.5 sm:mt-2 md:mt-2.5">
+                        <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white/70" />
+                        <span className={`${cormorant.className} text-[8px] sm:text-[9px] md:text-[10px] text-white/75`}>
                           Confirmed {formatDate(guest.updatedAt)}
                         </span>
                       </div>
@@ -475,7 +451,7 @@ export function BookOfGuests() {
               ))}
               </div>
 
-              {/* Carousel indicators — warm brown */}
+              {/* Carousel indicators */}
               {confirmedGuests.length > CARDS_PER_VIEW && (
                 <div className="flex items-center justify-center gap-2 mt-4 sm:mt-6">
                   {Array.from({ length: Math.ceil(confirmedGuests.length / CARDS_PER_VIEW) }).map((_, idx) => {
@@ -494,11 +470,7 @@ export function BookOfGuests() {
                             setTimeout(() => setJustEntered(false), 1100)
                           }, 600)
                         }}
-                        className="h-2 rounded-full transition-all duration-300 hover:opacity-90"
-                        style={{
-                          width: isActive ? "1.75rem" : "0.5rem",
-                          backgroundColor: isActive ? accentColor : "color-mix(in srgb, var(--color-motif-accent) 35%, transparent)",
-                        }}
+                        className={`h-2 rounded-full transition-all duration-300 hover:opacity-90 ${isActive ? "w-7 bg-white" : "w-2 bg-white/40"}`}
                         aria-label={`Go to page ${idx + 1}`}
                       />
                     )
@@ -508,8 +480,10 @@ export function BookOfGuests() {
             </div>
           </div>
         )}
-
+          </div>
+        </div>
       </div>
+    </div>
     </div>
   )
 }

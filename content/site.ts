@@ -7,10 +7,10 @@ export const siteConfig = {
   couple: {
     bride: "Fatima Calbay", //Noenyl Bryle M. Gonzaga
     brideNickname: "Fatima", //Ltryl
-    groom: "Mark Benson Mariñas", //Ltryl B. Benitez
-    groomNickname: "Mark",
-    monogram:"/monogram/monogram.png" ,//Ltryl
-    backgroundMusic:"/background_music/PALAGI (Wedding Version) - TJ Monterde  OFFICIAL AUDIO.mp3"
+    groom: "Benson Mariñas",
+    groomNickname: "Benson",
+    monogram:"/monogram/monog.png" ,//Ltryl
+    backgroundMusic:"/background_music/Lord Huron - The Night We Met (Official Audio).mp3"
   },
   googleAPI:{
     messageForm: "https://docs.google.com/forms/d/e/1FAIpQLSclTqh4cauamcT6w78B_mold9SGtW7DMPCz0M_s6H00U0m88A/formResponse",   //done
@@ -34,13 +34,13 @@ export const siteConfig = {
   },
   proposal: {
     // Use "Maid of Honor" for unmarried, "Matron of Honor" for married
-    honorAttendant: "Matron of Honor" as "Matron of Honor" | "Maid of Honor",
+    honorAttendant: "Maid of Honor" as "Matron of Honor" | "Maid of Honor",
     roles: proposalRoleDefinitions,
     roleIdAliases: proposalRoleIdAliases,
   },
   details: {
     rsvp: {
-      deadline: "August 05, 2026",
+      deadline: "July 26, 2026",
       contact: "Karla Kaye Bastida",
       phone: "+63 956 482 5255",
     },
@@ -149,23 +149,13 @@ Now, as they prepare to say yes before God and the people they love most, Cather
     googleDriveLink:
       "https://drive.google.com/drive/folders/1Ujxcr00PqehIxfjvSJDGXu9EIszZT6SQ?usp=sharing",
     albumQR: "/QR/AlbumQR.png",
-    hashtag: ["#FatimaAndMarkWedding"],
+    hashtag: [],
     instructions: "Please scan this QR Code and upload the photos and videos you have taken during our wedding reception. We are delighted to see your snaps too!",
   },
 }
 
 export const entourage = [
-  // Best Man & Maid/Matron of Honor
-  { role: "Best Man", name: "Red Casallo" },
-  { role: "Matron of Honor", name: "Imeeliza Timpug" },
-
-  // Parents of the Bride
-  { role: "Father", name: "Jaime Balajadia (Uncle)", group: "kate-family" },
-  { role: "Mother", name: "Eloida Ricohermoso", group: "kate-family" },
-
-  // Parents of the Groom
-  { role: "Brother", name: "Perry Ticbaen (Brother)", group: "christian-family" },
-  { role: "Mother", name: "Felicitas Ticbaen", group: "christian-family" },
+  { role: "Best Man", name: "Engr. Kevin Christian Mariñas" },
 
   // Bridesmaids
   { role: "Bridesmaid", name: "Thea Lynn Dela Cruz" },
@@ -190,24 +180,20 @@ export const entourage = [
   { role: "Groomsman", name: "Emerson Sulit" },
 
   // Secondary Sponsors
-  // Candle Sponsors
-  { role: "Bridesmaid", name: "Romela Tolentino", group: "candle" },
-  // Cord Sponsors
-  { role: "Bridesmaid", name: "Emmalyn Lipio", group: "cord" },
+  { role: "Veil Sponsor", name: "Micaela", group: "veil" },
+  { role: "Veil Sponsor", name: "Ian", group: "veil" },
+  { role: "Cord Sponsor", name: "Marion", group: "cord" },
+  { role: "Cord Sponsor", name: "Christian", group: "cord" },
 
   // Flower Girls and Little Bride
   { role: "Flower Girl", name: "Kirsten Elija Leyson" },
   { role: "Flower Girl", name: "Blake Juan" },
   { role: "Flower Girl", name: "Reign Arastel Rivera" },
   { role: "Little Bride", name: "Paige Yael Ticbaen" },
-
-  // Ring / Coin Bearers
-  { role: "Ring Bearer", name: "Khaleb Dwayne M. Beltran" },
-  { role: "Coin Bearer", name: "Lucas Rhaiden Beltran" },
-  { role: "Ring Bearer", name: "Dean James Ticbaen" },
 ]
 
 export const principalSponsors = [
+  { name: "", spouse: "Engr. Rosemarie Bagadiong" },
   // Paired from provided Male and Female Sponsors (order-based)
   // { name: "Mr. Jony Balao", spouse: "Mrs. Conception Balao" },
   // { name: "Mr. Cresencio Francisco", spouse: "Dr. Editha Francisco" },

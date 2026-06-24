@@ -7,6 +7,7 @@ import { Cinzel } from "next/font/google"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import Counter from "@/components/Counter"
 import { CloudinaryImage } from "@/components/ui/cloudinary-image"
+import Image from "next/image"
 
 interface TimeLeft {
   days: number
@@ -30,7 +31,10 @@ const cinzelRegular = Cinzel({
   weight: "400",
 })
 
-const textColor = "color-mix(in srgb, var(--color-motif-cream) 50%, white)"
+const textColor = "#ffffff"
+
+const CORNER_DECO_CLASS =
+  "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80 drop-shadow-[0_10px_28px_rgba(0,0,0,0.35)]"
 
 function CountdownUnit({ value, label }: CountdownUnitProps) {
   const places = value >= 100 ? [100, 10, 1] : [10, 1]
@@ -40,7 +44,7 @@ function CountdownUnit({ value, label }: CountdownUnitProps) {
       {/* Card container */}
       <div className="relative w-full max-w-[88px] sm:max-w-[96px] md:max-w-[110px] lg:max-w-[120px]">
         {/* Main card */}
-        <div className="relative rounded-xl sm:rounded-2xl border border-motif-accent/25 bg-motif-accent/10 px-2.5 py-2.5 sm:px-3.5 sm:py-3.5 md:px-4 md:py-4">
+        <div className="relative rounded-xl sm:rounded-2xl border border-white/30 bg-white/15 backdrop-blur-md px-2.5 py-2.5 sm:px-3.5 sm:py-3.5 md:px-4 md:py-4 shadow-[0_12px_40px_rgba(0,0,0,0.22),0_4px_14px_rgba(0,0,0,0.14)]">
           <div className="relative z-10 flex items-center justify-center" style={{ color: textColor }}>
             <Counter
               value={value}
@@ -62,6 +66,7 @@ function CountdownUnit({ value, label }: CountdownUnitProps) {
                 minWidth: "1.15ch",
                 fontFamily: "Arial, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
                 color: textColor,
+                textShadow: "0 2px 10px rgba(0,0,0,0.25)",
               }}
             />
           </div>
@@ -71,7 +76,7 @@ function CountdownUnit({ value, label }: CountdownUnitProps) {
       {/* Label */}
       <span
         className="text-[10px] sm:text-xs md:text-sm font-inter font-semibold uppercase tracking-[0.16em]"
-        style={{ color: textColor }}
+        style={{ color: textColor, textShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
       >
         {label}
       </span>
@@ -170,51 +175,51 @@ export function Countdown() {
       id="countdown"
       className="relative py-10 sm:py-12 md:py-16 lg:py-20 overflow-hidden"
     >
-      {/* Corner floral decoration - white */}
-      {/* <div className="absolute left-0 top-0 z-0 pointer-events-none">
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
+      {/* Corner decorations — reflected to all four corners */}
+      <div className="absolute right-0 top-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/right-top-deco.png"
           alt=""
           width={300}
           height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-60 scale-y-[-1]"
+          className={CORNER_DECO_CLASS}
           priority={false}
-          style={{ filter: "brightness(0) invert(1)" }}
+          aria-hidden
         />
-      </div> */}
-      {/* <div className="absolute right-0 top-0 z-0 pointer-events-none">
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
+      </div>
+      <div className="absolute left-0 top-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/right-top-deco.png"
           alt=""
           width={300}
           height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-60 scale-x-[-1] scale-y-[-1]"
+          className={`${CORNER_DECO_CLASS} scale-x-[-1]`}
           priority={false}
-          style={{ filter: "brightness(0) invert(1)" }}
+          aria-hidden
         />
-      </div> */}
-      {/* <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
+      </div>
+      <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/left-bottom-deco.png"
           alt=""
           width={300}
           height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-60"
+          className={CORNER_DECO_CLASS}
           priority={false}
-          style={{ filter: "brightness(0) invert(1)" }}
+          aria-hidden
         />
-      </div> */}
-      {/* <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <CloudinaryImage
-          src="/decoration/flower-decoration-left-bottom-corner2.png"
+      </div>
+      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/left-bottom-deco.png"
           alt=""
           width={300}
           height={300}
-          className="w-auto h-auto max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px] opacity-60 scale-x-[-1]"
+          className={`${CORNER_DECO_CLASS} scale-x-[-1]`}
           priority={false}
-          style={{ filter: "brightness(0) invert(1)" }}
+          aria-hidden
         />
-      </div> */}
+      </div>
       
       {/* Monogram - centered at top */}
       <div className="relative flex justify-center pt-8 sm:pt-10 md:pt-12 mb-6 sm:mb-8 md:mb-10 z-10">
@@ -231,8 +236,7 @@ export function Countdown() {
               fill
               className="object-contain"
               style={{
-                filter:
-                  "brightness(0) saturate(100%) invert(100%) drop-shadow(0 8px 20px color-mix(in srgb, var(--color-motif-soft) 55%, transparent))",
+                filter: "brightness(0) invert(1) drop-shadow(0 12px 32px rgba(0,0,0,0.35)) drop-shadow(0 4px 12px rgba(255,255,255,0.12))",
               }}
               priority={false}
             />
@@ -244,125 +248,92 @@ export function Countdown() {
       <div className="relative z-10 text-center mb-6 sm:mb-8 md:mb-10 px-3 sm:px-4">
         {/* Decorative element above title */}
         <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
-          <span className="h-px w-8 rounded-full bg-motif-accent/60 sm:w-12 md:w-16" />
+          <span className="h-px w-8 rounded-full bg-white/40 sm:w-12 md:w-16" />
           <div className="flex gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-80" />
-            <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-50" />
-            <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-80" />
+            <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
+            <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
+            <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
           </div>
-          <span className="h-px w-8 rounded-full bg-motif-accent/60 sm:w-12 md:w-16" />
+          <span className="h-px w-8 rounded-full bg-white/40 sm:w-12 md:w-16" />
         </div>
         
         <h2
-          className={`${cinzelRegular.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-2 sm:mb-3 md:mb-4`}
-          style={{ color: textColor }}
+          className={`${cinzelRegular.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-2 sm:mb-3 md:mb-4 text-white`}
+          style={{ textShadow: "0 3px 16px rgba(0,0,0,0.25)" }}
         >
           Counting down to our forever
         </h2>
         
-        {/* <p className="text-xs sm:text-sm md:text-base lg:text-lg text-motif-cream/95 font-light max-w-xl mx-auto leading-relaxed px-2">
-          Every heartbeat brings us closer to the moment when two hearts become one. Join {groomNickname} and {brideNickname} as they count down to forever.
-        </p> */}
-        
         {/* Decorative element below subtitle */}
         <div className="flex items-center justify-center gap-2 mt-3 sm:mt-4">
-          <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-80" />
-          <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-50" />
-          <span className="h-1.5 w-1.5 rounded-full bg-motif-accent opacity-80" />
+          <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
+          <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
+          <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
         </div>
       </div>
 
-      {/* Save The Date Card */}
+      {/* Countdown */}
       <div className="relative z-10">
         <div className="flex justify-center px-3 sm:px-4">
-          <div className="max-w-2xl w-full">
-
-            {/* Numeric countdown: Days / Hours / Minutes / Seconds */}
-            <div className="mt-2 sm:mt-4 md:mt-6 font-inter">
-              <div className="flex flex-col items-center gap-3 sm:gap-4 md:gap-6">
-                {/* 2x2 on mobile, 4 in a row from md+ */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full max-w-sm sm:max-w-md md:max-w-xl">
-                  <CountdownUnit value={timeLeft.days} label="Days" />
-                  <CountdownUnit value={timeLeft.hours} label="Hours" />
-                  <CountdownUnit value={timeLeft.minutes} label="Minutes" />
-                  <CountdownUnit value={timeLeft.seconds} label="Seconds" />
-                </div>
+          <div className="max-w-2xl w-full font-inter mt-2 sm:mt-4 md:mt-6">
+            <div className="flex flex-col items-center gap-3 sm:gap-4 md:gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full max-w-sm sm:max-w-md md:max-w-xl">
+                <CountdownUnit value={timeLeft.days} label="Days" />
+                <CountdownUnit value={timeLeft.hours} label="Hours" />
+                <CountdownUnit value={timeLeft.minutes} label="Minutes" />
+                <CountdownUnit value={timeLeft.seconds} label="Seconds" />
               </div>
             </div>
           </div>
-          
         </div>
-        
-            {/* Date Section - Layout matched with hero date block */}
-            <div className="relative sm:rounded-3xl p-6 sm:p-8 md:p-10 mb-6 sm:mb-8">
-              <div className="w-full max-w-2xl mx-auto">
-                <div
-                  className={`${cinzel.className} flex flex-col items-center gap-1.5 sm:gap-2.5 md:gap-3 font-bold`}
-                  style={{ color: textColor }}
-                >
-                  {/* Month */}
-                  <span
-                    className="text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em]"
-                    style={{ color: textColor }}
-                  >
-                    {ceremonyMonth}
+
+        {/* Date Section */}
+        <div className="relative sm:rounded-3xl p-6 sm:p-8 md:p-10 mb-6 sm:mb-8 mt-4 sm:mt-6">
+          <div className="w-full max-w-2xl mx-auto">
+            <div
+              className={`${cinzel.className} flex flex-col items-center gap-1.5 sm:gap-2.5 md:gap-3 font-bold text-white`}
+            >
+              <span className="text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/90">
+                {ceremonyMonth}
+              </span>
+
+              <div className="flex w-full items-center gap-2 sm:gap-4 md:gap-5">
+                <div className="flex flex-1 items-center justify-end gap-1.5 sm:gap-2.5">
+                  <span className="h-px flex-1 rounded-full bg-white/40" />
+                  <span className="text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/90">
+                    {ceremonyDayShort}
                   </span>
+                  <span className="h-px w-6 rounded-full bg-white/40 sm:w-8 md:w-10" />
+                </div>
 
-                  {/* Day and time row */}
-                  <div className="flex w-full items-center gap-2 sm:gap-4 md:gap-5">
-                    {/* Day of week & divider */}
-                    <div className="flex flex-1 items-center justify-end gap-1.5 sm:gap-2.5">
-                      <span className="h-px flex-1 rounded-full bg-motif-accent/60" />
-                      <span
-                        className="text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em]"
-                        style={{ color: textColor }}
-                      >
-                        {ceremonyDayShort}
-                      </span>
-                      <span className="h-px w-6 rounded-full bg-motif-accent/60 sm:w-8 md:w-10" />
-                    </div>
-
-                    {/* Day number */}
-                    <div className="relative flex items-center justify-center px-3 sm:px-4 md:px-5">
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-0 mx-auto h-[70%] max-h-[180px] w-[100px] rounded-full bg-motif-accent/20 blur-[28px] opacity-80 sm:w-[140px] md:w-[170px]"
-                      />
-                      <span
-                        className={`${cinzel.className} relative text-[3rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[6rem] font-bold leading-none tracking-wider`}
-                        style={{
-                          color: textColor,
-                          textShadow:
-                            "0 2px 12px color-mix(in srgb, var(--color-motif-soft) 45%, transparent)",
-                        }}
-                      >
-                        {ceremonyDayNumber.padStart(2, "0")}
-                      </span>
-                    </div>
-
-                    {/* Time */}
-                    <div className="flex flex-1 items-center gap-1.5 sm:gap-2.5">
-                      <span className="h-px w-6 rounded-full bg-motif-accent/60 sm:w-8 md:w-10" />
-                      <span
-                        className="text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em]"
-                        style={{ color: textColor }}
-                      >
-                        {ceremonyTimeDisplay.split(",")[0]}
-                      </span>
-                      <span className="h-px flex-1 rounded-full bg-motif-accent/60" />
-                    </div>
-                  </div>
-
-                  {/* Year */}
+                <div className="relative flex items-center justify-center px-3 sm:px-4 md:px-5">
                   <span
-                    className="text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em]"
-                    style={{ color: textColor }}
+                    aria-hidden="true"
+                    className="absolute inset-0 mx-auto h-[70%] max-h-[180px] w-[100px] rounded-full bg-white/15 blur-[28px] opacity-80 sm:w-[140px] md:w-[170px]"
+                  />
+                  <span
+                    className={`${cinzel.className} relative text-[3rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[6rem] font-bold leading-none tracking-wider text-white`}
+                    style={{ textShadow: "0 4px 20px rgba(0,0,0,0.3)" }}
                   >
-                    {ceremonyYear}
+                    {ceremonyDayNumber.padStart(2, "0")}
                   </span>
                 </div>
+
+                <div className="flex flex-1 items-center gap-1.5 sm:gap-2.5">
+                  <span className="h-px w-6 rounded-full bg-white/40 sm:w-8 md:w-10" />
+                  <span className="text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/90">
+                    {ceremonyTimeDisplay.split(",")[0]}
+                  </span>
+                  <span className="h-px flex-1 rounded-full bg-white/40" />
+                </div>
               </div>
+
+              <span className="text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/90">
+                {ceremonyYear}
+              </span>
             </div>
+          </div>
+        </div>
       </div>
     </Section>
   )

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef, useLayoutEffect } from "react"
+import { useState, useEffect, useRef, useLayoutEffect } from "react"
 import Link from "next/link"
 import Silk from "@/components/silk"
 import Image from "next/image"
@@ -14,7 +14,6 @@ import {
   MapPin,
 } from "lucide-react"
 import { useSiteConfig } from "@/hooks/use-site-config"
-import { LoadingScreen } from "@/components/loader/LoadingScreen"
 import { getRoleSingular } from "@/lib/proposal-roles"
 import type { ProposalRole, ProposalResponse } from "@/lib/proposal-types"
 
@@ -327,16 +326,12 @@ interface ProposalPageProps {
 
 export function ProposalPage({ role }: ProposalPageProps) {
   const siteConfig = useSiteConfig()
-  const [isReady, setIsReady] = useState(false)
+  const [isReady, setIsReady] = useState(true)
   const [flowState, setFlowState] = useState<ProposalFlowState>("question")
   const [preferredName, setPreferredName] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [validationError, setValidationError] = useState("")
   const [responses, setResponses] = useState<ProposalResponse[]>([])
-
-  const handleLoadingComplete = useCallback(() => {
-    setIsReady(true)
-  }, [])
 
   useEffect(() => {
     fetch("/api/proposal-responses", { cache: "no-store" })
@@ -408,8 +403,6 @@ export function ProposalPage({ role }: ProposalPageProps) {
     <div
       className={`${cormorant.className} relative flex min-h-screen select-none flex-col items-center justify-center overflow-hidden bg-transparent px-3 py-8 sm:px-6 sm:py-16`}
     >
-      {!isReady && <LoadingScreen onComplete={handleLoadingComplete} />}
-
       {/* Silk background — full visibility, no page overlays */}
       {enableDecor && (
         <div className="pointer-events-none fixed inset-0 z-0">
