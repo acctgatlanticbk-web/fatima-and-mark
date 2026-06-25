@@ -10,7 +10,7 @@ export const siteConfig = {
     groom: "Benson Mariñas",
     groomNickname: "Benson",
     monogram:"/monogram/monog.png" ,//Ltryl
-    backgroundMusic:"/background_music/Lord Huron - The Night We Met (Official Audio).mp3"
+    backgroundMusic:"/background_music/Haley Reinhart - Can't Help Falling In Love (Official Audio).mp3"
   },
   googleAPI:{
     messageForm: "https://docs.google.com/forms/d/e/1FAIpQLSclTqh4cauamcT6w78B_mold9SGtW7DMPCz0M_s6H00U0m88A/formResponse",   //done
