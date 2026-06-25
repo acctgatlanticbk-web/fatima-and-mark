@@ -13,9 +13,6 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 
-const CORNER_DECO_CLASS =
-  "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80"
-
 const GLASS_CARD_CLASS =
   "relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-white/25 bg-white/15 backdrop-blur-lg shadow-[0_20px_70px_rgba(0,0,0,0.12)]"
 
@@ -62,8 +59,8 @@ const cinzel = Cinzel({
 })
 
 const galleryItems = [
-  { image: "/mobile-gallery/couple (1).jpeg", text: " " },
   { image: "/mobile-gallery/couple (2).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (1).jpeg", text: " " },
   { image: "/mobile-gallery/couple (3).jpeg", text: " " },
   { image: "/mobile-gallery/couple (4).jpeg", text: " " },
   { image: "/mobile-gallery/couple (5).jpeg", text: " " },
@@ -296,36 +293,12 @@ export function Gallery() {
   }
 
   return (
-    <div className="relative w-full bg-[#7D7F2E]">
+    <div className="relative w-full">
       <section
         ref={sectionRef}
         id="gallery"
         className="relative z-10 py-12 sm:py-16 md:py-20 overflow-hidden"
       >
-        {/* Corner decorations */}
-        <div className="absolute left-0 top-0 z-0 pointer-events-none">
-          <Image
-            src="/decoration/top-left-deco.png"
-            alt=""
-            width={300}
-            height={300}
-            className={CORNER_DECO_CLASS}
-            priority={false}
-            aria-hidden
-          />
-        </div>
-        <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-          <Image
-            src="/decoration/bottom-right-deco.png"
-            alt=""
-            width={300}
-            height={300}
-            className={CORNER_DECO_CLASS}
-            priority={false}
-            aria-hidden
-          />
-        </div>
-
         {/* Section Header */}
         <div
           className={`relative z-30 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4 transition-all duration-1000 ${

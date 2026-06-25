@@ -176,7 +176,7 @@ export function Countdown() {
       className="relative py-10 sm:py-12 md:py-16 lg:py-20 overflow-hidden"
     >
       {/* Corner decorations — reflected to all four corners */}
-      <div className="absolute right-0 top-0 z-0 pointer-events-none">
+      {/* <div className="absolute right-0 top-0 z-0 pointer-events-none">
         <Image
           src="/decoration/right-top-deco.png"
           alt=""
@@ -186,8 +186,8 @@ export function Countdown() {
           priority={false}
           aria-hidden
         />
-      </div>
-      <div className="absolute left-0 top-0 z-0 pointer-events-none">
+      </div> */}
+      {/* <div className="absolute left-0 top-0 z-0 pointer-events-none">
         <Image
           src="/decoration/right-top-deco.png"
           alt=""
@@ -197,8 +197,8 @@ export function Countdown() {
           priority={false}
           aria-hidden
         />
-      </div>
-      <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
+      </div> */}
+      {/* <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
         <Image
           src="/decoration/left-bottom-deco.png"
           alt=""
@@ -208,8 +208,8 @@ export function Countdown() {
           priority={false}
           aria-hidden
         />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
+      </div> */}
+      {/* <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
         <Image
           src="/decoration/left-bottom-deco.png"
           alt=""
@@ -219,7 +219,7 @@ export function Countdown() {
           priority={false}
           aria-hidden
         />
-      </div>
+      </div> */}
       
       {/* Monogram - centered at top */}
       <div className="relative flex justify-center pt-8 sm:pt-10 md:pt-12 mb-6 sm:mb-8 md:mb-10 z-10">

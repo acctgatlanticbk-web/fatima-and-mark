@@ -9,8 +9,8 @@ import { ClientLayout } from "@/components/client-layout"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://fatima-and-mark-invitation.netlify.app/"
 const canonicalUrl = siteUrl.replace(/\/$/, "")
-  const desktopHero = "/Details/linkPreview.jpg"
-const mobileHero = "/Details/linkPreview.jpg"
+  const desktopHero = "/Details/newLink-be.png"
+const mobileHero = "/Details/newLink-be.png"
 const eventImageUrl = `${canonicalUrl}${desktopHero}`
 
 // Hardcoded Cloudinary URL — image is already uploaded and always accessible via CDN.

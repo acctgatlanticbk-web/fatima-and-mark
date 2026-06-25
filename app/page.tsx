@@ -2,6 +2,7 @@
 
 import { useEffect } from "react"
 import dynamic from "next/dynamic"
+import Silk from "@/components/silk"
 import { Hero as MainHero } from "@/components/sections/hero"
 import { Welcome } from "@/components/sections/welcome"
 import { Countdown } from "@/components/sections/countdown"
@@ -24,6 +25,8 @@ import { CoupleVideo } from "@/components/sections/couple-video"
 const GuestList = dynamic(() => import("@/components/sections/guest-list").then(mod => ({ default: mod.GuestList })), { ssr: false })
 
 export default function Home() {
+  const enableDecor = process.env.NEXT_PUBLIC_ENABLE_DECOR !== "false"
+
   // When returning from /gallery, scroll to the hash in the URL
   useEffect(() => {
     const returning = sessionStorage.getItem("returnFromGallery")
@@ -40,7 +43,23 @@ export default function Home() {
   }, [])
 
   return (
-      <div className="relative min-h-screen overflow-hidden bg-[#A02C1D] font-sans text-charcoal selection:bg-birch selection:text-nut">
+      <div
+        className={`relative min-h-screen overflow-hidden font-sans text-charcoal selection:bg-birch selection:text-nut ${
+          enableDecor ? "bg-transparent" : "bg-[#A02C1D]"
+        }`}
+      >
+        {enableDecor && (
+          <div className="pointer-events-none fixed inset-0 z-0">
+            <Silk
+              speed={5}
+              scale={1.1}
+              color="#A02C1D"
+              noiseIntensity={0.8}
+              rotation={0.3}
+            />
+          </div>
+        )}
+
         <main className="relative w-full h-full">
           <div className="relative z-10">
             <Navbar />

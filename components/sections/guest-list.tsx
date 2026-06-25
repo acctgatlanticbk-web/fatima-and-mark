@@ -476,7 +476,7 @@ export function GuestList() {
       className="relative z-20 py-16 sm:py-20 md:py-24 lg:py-28 overflow-visible"
     >
       {/* Corner decorations — reflected to all four corners */}
-      <div className="absolute right-0 top-0 z-0 pointer-events-none">
+      {/* <div className="absolute right-0 top-0 z-0 pointer-events-none">
         <Image
           src="/decoration/right-top-deco.png"
           alt=""
@@ -486,8 +486,8 @@ export function GuestList() {
           priority={false}
           aria-hidden
         />
-      </div>
-      <div className="absolute left-0 top-0 z-0 pointer-events-none">
+      </div> */}
+      {/* <div className="absolute left-0 top-0 z-0 pointer-events-none">
         <Image
           src="/decoration/right-top-deco.png"
           alt=""
@@ -497,8 +497,8 @@ export function GuestList() {
           priority={false}
           aria-hidden
         />
-      </div>
-      <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
+      </div> */}
+      {/* <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
         <Image
           src="/decoration/left-bottom-deco.png"
           alt=""
@@ -508,8 +508,8 @@ export function GuestList() {
           priority={false}
           aria-hidden
         />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
+      </div> */}
+      {/* <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
         <Image
           src="/decoration/left-bottom-deco.png"
           alt=""
@@ -519,7 +519,7 @@ export function GuestList() {
           priority={false}
           aria-hidden
         />
-      </div>
+      </div> */}
 
       {/* Header */}
       <div className="relative z-10 text-center mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6">

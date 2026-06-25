@@ -53,7 +53,7 @@ const cardTextColor = "white"
 const accentColor = "rgba(255,255,255,0.85)"
 
 const CORNER_DECO_CLASS =
-  "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80"
+  "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80 drop-shadow-[0_10px_28px_rgba(0,0,0,0.35)]"
 
 function MotifDivider() {
   return (
@@ -391,16 +391,16 @@ export function Entourage() {
   }
 
   return (
-    <div className="relative w-full bg-[#7D7F2E]">
+    <div className="relative w-full">
       <section
         ref={sectionRef}
         id="entourage"
         className="relative z-10 py-12 sm:py-16 md:py-20 overflow-hidden"
       >
-      {/* Corner decorations */}
-      <div className="absolute left-0 top-0 z-0 pointer-events-none">
+      {/* Corner decorations — reflected to all four corners */}
+      {/* <div className="absolute right-0 top-0 z-0 pointer-events-none">
         <Image
-          src="/decoration/top-left-deco.png"
+          src="/decoration/right-top-deco.png"
           alt=""
           width={300}
           height={300}
@@ -408,10 +408,21 @@ export function Entourage() {
           priority={false}
           aria-hidden
         />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
+      </div> */}
+      {/* <div className="absolute left-0 top-0 z-0 pointer-events-none">
         <Image
-          src="/decoration/bottom-right-deco.png"
+          src="/decoration/right-top-deco.png"
+          alt=""
+          width={300}
+          height={300}
+          className={`${CORNER_DECO_CLASS} scale-x-[-1]`}
+          priority={false}
+          aria-hidden
+        />
+      </div> */}
+      {/* <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/left-bottom-deco.png"
           alt=""
           width={300}
           height={300}
@@ -419,17 +430,32 @@ export function Entourage() {
           priority={false}
           aria-hidden
         />
-      </div>
+      </div> */}
+      {/* <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
+        <Image
+          src="/decoration/left-bottom-deco.png"
+          alt=""
+          width={300}
+          height={300}
+          className={`${CORNER_DECO_CLASS} scale-x-[-1]`}
+          priority={false}
+          aria-hidden
+        />
+      </div> */}
 
       {/* Section Header */}
-      <div className={`relative z-30 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}>
+      <div className={`relative z-30 text-center  sm:mb-5 md:mb-6 px-3 sm:px-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}> 
+       {/* mt-10 sm:mt-12 md:mt-14 lg:mt-16 mb-4 */}
         <p
-          className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] mb-2 text-white/90`}
+          className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] mb-2 text-white/90 max-w-xs sm:max-w-sm mx-auto leading-relaxed`}
         >
-          Those who stand with {siteConfig.couple.groomNickname} &amp; {siteConfig.couple.brideNickname}
+          <span className="block">Those who stand with</span>
+          <span className="block mt-1 tracking-[0.22em] sm:tracking-[0.24em]">
+            {siteConfig.couple.groomNickname} &amp; {siteConfig.couple.brideNickname}
+          </span>
         </p>
-
-        <MotifDivider />
+{/* 
+        <MotifDivider /> */}
 
         <h2
           className={`${cinzel.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-1 sm:mb-2 md:mb-2.5 text-white`}

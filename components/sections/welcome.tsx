@@ -3,7 +3,6 @@
 import { Section } from "@/components/section"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import Image from "next/image"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -19,9 +18,6 @@ const cinzel = Cinzel({
 // Palette lives in globals.css → @theme inline → --color-motif-*
 // Edit there once to update every component.
 
-const CORNER_DECO_CLASS =
-  "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80"
-
 export function Welcome() {
   const siteConfig = useSiteConfig()
   const brideName = siteConfig.couple.brideNickname || siteConfig.couple.bride
@@ -29,32 +25,8 @@ export function Welcome() {
   return (
     <Section
       id="welcome"
-      className="relative overflow-hidden bg-[#7D7F2E] py-12 sm:py-16 md:py-20"
+      className="relative overflow-hidden py-12 sm:py-16 md:py-20"
     >
-      {/* Corner decorations */}
-      <div className="absolute left-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/top-left-deco.png"
-          alt=""
-          width={300}
-          height={300}
-          className={CORNER_DECO_CLASS}
-          priority={false}
-          aria-hidden
-        />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/bottom-right-deco.png"
-          alt=""
-          width={300}
-          height={300}
-          className={CORNER_DECO_CLASS}
-          priority={false}
-          aria-hidden
-        />
-      </div>
-
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-white/25 bg-white/15 backdrop-blur-lg shadow-[0_20px_70px_rgba(0,0,0,0.12)] px-4 sm:px-5 md:px-8 lg:px-10 py-6 sm:py-8 md:py-10 lg:py-12">
           {/* Subtle accent overlay */}

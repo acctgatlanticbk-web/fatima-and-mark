@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { RefreshCw, TrendingUp, Users, MapPin, Calendar, Crown } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
-import Image from "next/image"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -33,9 +32,6 @@ interface Guest {
 }
 
 const CARDS_PER_VIEW = 4
-
-const CORNER_DECO_CLASS =
-  "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80"
 
 const GLASS_CARD_CLASS =
   "relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-white/25 bg-white/15 backdrop-blur-lg shadow-[0_20px_70px_rgba(0,0,0,0.12)]"
@@ -207,35 +203,11 @@ export function BookOfGuests() {
   }, [confirmedGuests.length])
 
   return (
-    <div className="relative w-full bg-[#7D7F2E]">
+    <div className="relative w-full">
     <div
       id="guests"
       className="relative z-10 overflow-hidden py-12 sm:py-16 md:py-20"
     >
-      {/* Corner decorations */}
-      <div className="absolute left-0 top-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/top-left-deco.png"
-          alt=""
-          width={300}
-          height={300}
-          className={CORNER_DECO_CLASS}
-          priority={false}
-          aria-hidden
-        />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
-        <Image
-          src="/decoration/bottom-right-deco.png"
-          alt=""
-          width={300}
-          height={300}
-          className={CORNER_DECO_CLASS}
-          priority={false}
-          aria-hidden
-        />
-      </div>
-
       {/* Section Header */}
       <div className="relative z-10 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4">
         <p
