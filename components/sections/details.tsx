@@ -1,6 +1,7 @@
 "use client"
 
 import { Section } from "@/components/section"
+import { NameConnector } from "@/components/couple-name-text"
 import { useState, useEffect } from "react"
 import { QRCodeSVG } from "qrcode.react"
 import { useSiteConfig } from "@/hooks/use-site-config"
@@ -44,6 +45,18 @@ const BTN_PRIMARY =
 
 const BTN_SECONDARY =
   "flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 md:py-3 bg-white/15 border border-white/30 hover:border-white/45 hover:bg-white/25 text-white rounded-lg font-[family-name:var(--font-crimson)] font-semibold text-xs sm:text-sm md:text-base transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+
+function CoupleNameInline() {
+  const { groomNickname, brideNickname } = useSiteConfig().couple
+
+  return (
+    <>
+      {groomNickname}
+      <NameConnector size="sm">&</NameConnector>
+      {brideNickname}
+    </>
+  )
+}
 
 export function Details() {
   const siteConfig = useSiteConfig()
@@ -173,26 +186,21 @@ export function Details() {
       </div> */}
 
       {/* Header */}
-      <div className="relative z-10 text-center mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6">
-        <div className="flex items-center justify-center gap-2 mb-4 sm:mb-5">
-          <div className="h-px w-16 sm:w-24 bg-white/40" />
-          <div className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-[0_0_18px_rgba(255,255,255,0.25)]" />
-          <div className="h-px w-16 sm:w-24 bg-white/40" />
-        </div>
+      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-10 sm:mb-14 md:mb-16 px-4 sm:px-6">
+        <p
+          className={`${cormorant.className} inline-flex flex-wrap items-baseline justify-center gap-y-1 text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
+        >
+          <CoupleNameInline />
+        </p>
+
         <h2
-          className="leading-none text-white"
-          style={{
-            fontFamily: "var(--font-brittany), cursive",
-            fontSize: "clamp(2rem, 9vw, 4.5rem)",
-            letterSpacing: "0.01em",
-            textShadow: "0 3px 16px rgba(0,0,0,0.25)",
-          }}
+          className="font-[family-name:var(--font-safira-march)] text-[clamp(1.6rem,5.8vw,2rem)] sm:text-[2.85rem] md:text-[3.55rem] lg:text-[4.1rem] xl:text-[4.6rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
         >
           Event Details
         </h2>
+
         <p
-          className={`${cinzel.className} text-sm sm:text-base md:text-lg text-white/90 font-normal max-w-xl mx-auto leading-relaxed tracking-[0.14em] px-4 mt-2`}
-          style={{ textShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+          className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-xl mx-auto leading-relaxed px-2 sm:px-3 mt-0.5 sm:mt-1`}
         >
           Everything you need to know about our special day.
         </p>
@@ -252,13 +260,6 @@ export function Details() {
                   <p className={`${cinzel.className} text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light text-white leading-none`}>
                   {new Date(siteConfig.ceremony.date).getFullYear()}
                   </p>
-                </div>
-
-                {/* Decorative line */}
-                <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                  <div className="h-[1px] w-8 sm:w-10 md:w-14 bg-gradient-to-r from-transparent via-white/50 to-white/50" />
-                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white/70 rounded-full" />
-                  <div className="h-[1px] w-8 sm:w-10 md:w-14 bg-gradient-to-l from-transparent via-white/50 to-white/50" />
                 </div>
 
                 {/* Time */}
@@ -457,15 +458,10 @@ export function Details() {
 
       {/* Attire Guide */}
       <div className="relative z-10 text-center mb-8 sm:mb-10 md:mb-12 px-4 sm:px-6">
-        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-5">
-          <div className="h-px w-10 sm:w-14 md:w-20 bg-white/40" />
-          <Shirt className="w-5 h-5 sm:w-6 sm:h-6 text-white/80" />
-          <div className="h-px w-10 sm:w-14 md:w-20 bg-white/40" />
+        <div className="flex items-center justify-center mb-4 sm:mb-5">
+          <Shirt className="w-5 h-5 sm:w-6 sm:h-6 text-white/80" aria-hidden />
         </div>
-        <h3
-          className={`${cinzel.className} text-base sm:text-lg md:text-xl lg:text-2xl text-white uppercase tracking-[0.22em] font-semibold leading-tight`}
-          style={{ textShadow: "0 2px 12px rgba(0,0,0,0.2)" }}
-        >
+        <h3 className="font-[family-name:var(--font-safira-march)] text-[1.2rem] sm:text-[1.45rem] md:text-[1.65rem] leading-none tracking-[0.01em] text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
           Attire Guide
         </h3>
       </div>
@@ -485,13 +481,15 @@ export function Details() {
 
             <div className={`${GLASS_INNER_CLASS} mt-5 sm:mt-6 px-3 py-3 sm:px-4 sm:py-3.5`}>
               <p className={`${cormorant.className} text-left text-sm sm:text-base text-white leading-snug sm:leading-relaxed`}>
-                We humbly request the honor of our Ninangs&apos; presence in elegant beige or champagne-colored dresses, and our Ninongs&apos; presence in a classic Barong Tagalog with a white undershirt paired with black slacks.
+                We humbly request the honor of our Ninangs&apos; presence in elegant beige or champagne-colored dresses,{" "}
+                <NameConnector size="sm">and</NameConnector>{" "}
+                our Ninongs&apos; presence in a classic Barong Tagalog with a white undershirt paired with black slacks.
               </p>
             </div>
 
             <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-white/20">
               <div className="flex flex-col items-center mb-4 sm:mb-5">
-                <p className={`${cinzel.className} text-xs sm:text-sm md:text-base text-white uppercase tracking-[0.2em] font-semibold text-center mb-3 sm:mb-4`}>
+                <p className="font-[family-name:var(--font-safira-march)] text-[1rem] sm:text-[1.15rem] md:text-[1.3rem] leading-none tracking-[0.01em] text-white text-center mb-3 sm:mb-4 [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
                   Friendly Reminder
                 </p>
                 <Image
@@ -505,7 +503,9 @@ export function Details() {
               </div>
               <div className={`${GLASS_INNER_CLASS} px-3 py-3 sm:px-4 sm:py-3.5`}>
                 <p className={`${cormorant.className} text-left text-sm sm:text-base text-white leading-snug sm:leading-relaxed`}>
-                  We warmly invite you to capture special moments of our wedding. As the ceremony begins, we kindly ask that phones and cameras remain out of the aisle. Feel free to take photos discreetly from your seat, allowing our photographers to capture each moment without obstruction.
+                  We warmly invite you to capture special moments of our wedding. As the ceremony begins, we kindly ask that phones{" "}
+                  <NameConnector size="sm">and</NameConnector>{" "}
+                  cameras remain out of the aisle. Feel free to take photos discreetly from your seat, allowing our photographers to capture each moment without obstruction.
                 </p>
               </div>
             </div>

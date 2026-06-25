@@ -9,17 +9,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
 import MessageWallDisplay from "./message-wall-display"
-import { Cormorant_Garamond, Cinzel } from "next/font/google"
+import { NameConnector } from "@/components/couple-name-text"
+import { Cormorant_Garamond } from "next/font/google"
 import { useSiteConfig } from "@/hooks/use-site-config"
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-})
-
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  weight: "400",
 })
 
 const GLASS_CARD_CLASS =
@@ -43,17 +39,15 @@ function GlassOverlay() {
 const primaryBtnClass =
   "cursor-pointer rounded-full border border-white/40 bg-white px-5 py-3 text-[9px] font-bold tracking-[0.16em] uppercase text-[#7D7F2E] shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all duration-300 hover:bg-white/90 hover:border-white/60 hover:shadow-xl hover:-translate-y-0.5 sm:px-7 sm:py-3.5 sm:text-[10px] sm:tracking-[0.18em] md:px-8 md:py-4 md:text-[11px]"
 
-function MotifDivider() {
+function CoupleNameInline() {
+  const { groomNickname, brideNickname } = useSiteConfig().couple
+
   return (
-    <div className="flex items-center justify-center gap-2">
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
-      <div className="flex gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-      </div>
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
-    </div>
+    <>
+      {groomNickname}
+      <NameConnector size="sm">&</NameConnector>
+      {brideNickname}
+    </>
   )
 }
 
@@ -71,7 +65,6 @@ interface MessageFormProps {
 function MessageForm({ onSuccess, onMessageSent }: MessageFormProps) {
   const siteConfig = useSiteConfig()
   const { brideNickname, groomNickname } = siteConfig.couple
-  const coupleDisplayName = `${groomNickname} & ${brideNickname}`
 
   const formRef = useRef<HTMLFormElement>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -177,11 +170,15 @@ function MessageForm({ onSuccess, onMessageSent }: MessageFormProps) {
                 <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8 text-white" />
               </div>
             </div>
-            <h3 className={`${cinzel.className} text-base sm:text-lg md:text-xl font-bold mb-1.5 sm:mb-2 text-white`}>
+            <h3 className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-2 sm:gap-2.5 text-lg sm:text-xl md:text-[1.35rem] leading-none tracking-[0.01em] mb-1.5 sm:mb-2 text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
               Share Your Love
             </h3>
             <p className={`${cormorant.className} text-[10px] sm:text-xs md:text-sm text-white/90`}>
-              Your words will be part of {coupleDisplayName}&apos;s keepsake for years to come.
+              Your words will be part of{" "}
+              <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1">
+                <CoupleNameInline />
+              </span>
+              &apos;s keepsake for years to come.
             </p>
           </div>
 
@@ -250,7 +247,7 @@ function MessageForm({ onSuccess, onMessageSent }: MessageFormProps) {
                   }}
                   onFocus={() => setFocusedField('message')}
                   onBlur={() => setFocusedField(null)}
-                  placeholder={`Write a heartfelt message for ${coupleDisplayName}... share your wishes, memories, or words of love that will be treasured forever 💕`}
+                  placeholder={`Write a heartfelt message for ${groomNickname} and ${brideNickname}... share your wishes, memories, or words of love that will be treasured forever 💕`}
                   className={`${cormorant.className} message-form-textarea w-full border-2 rounded-xl min-h-[80px] sm:min-h-[100px] md:min-h-[120px] text-xs sm:text-sm md:text-base text-black placeholder:italic placeholder:leading-relaxed transition-all duration-300 resize-none bg-white shadow-sm hover:shadow-md focus:shadow-lg py-2 sm:py-3 md:py-4 px-3 sm:px-4 md:px-5 ${
                     focusedField === 'message' 
                       ? 'border-motif-deep focus:border-motif-deep focus:ring-4 focus:ring-motif-accent/25 shadow-lg' 
@@ -294,10 +291,6 @@ function MessageForm({ onSuccess, onMessageSent }: MessageFormProps) {
 }
 
 export function Messages() {
-  const siteConfig = useSiteConfig()
-  const { brideNickname, groomNickname } = siteConfig.couple
-  const coupleDisplayName = `${groomNickname} & ${brideNickname}`
-
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -341,25 +334,31 @@ export function Messages() {
     >
       <div className="relative z-10 max-w-6xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="text-center mb-4 sm:mb-6 md:mb-8 lg:mb-10">
-          <div className="space-y-2 sm:space-y-2.5">
-            <p
-              className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
-            >
-              Messages for {coupleDisplayName}
-            </p>
-            <MotifDivider />
-            <h2
-              className={`${cinzel.className} text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white`}
-              style={{ textShadow: "0 2px 12px rgba(0,0,0,0.15)" }}
-            >
-              Love notes &amp; prayers
-            </h2>
-          </div>
+        <div className="flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-8 sm:mb-10 md:mb-12 px-4 sm:px-6">
           <p
-            className={`${cormorant.className} text-xs sm:text-sm md:text-base font-light max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 mt-2 text-white/90`}
+            className={`${cormorant.className} inline-flex flex-wrap items-baseline justify-center gap-y-1 text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
           >
-            Leave a short note for {coupleDisplayName}. Every wish and prayer becomes part of their forever story.
+            <CoupleNameInline />
+          </p>
+          <h2
+            className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-2.5 sm:gap-3 text-[1.35rem] sm:text-[1.75rem] md:text-[2.15rem] lg:text-[2.5rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
+          >
+            <span className="block">Love notes</span>
+            <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1">
+              <NameConnector size="sm">and</NameConnector>
+              <span>prayers</span>
+            </span>
+          </h2>
+          <p
+            className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 mt-0.5 sm:mt-1`}
+          >
+            Leave a short note for{" "}
+            <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1 not-italic">
+              <CoupleNameInline />
+            </span>
+            . Every wish{" "}
+            <NameConnector size="sm">and</NameConnector>{" "}
+            prayer becomes part of their forever story.
           </p>
         </div>
 
@@ -392,14 +391,17 @@ export function Messages() {
               </div>
             </div>
             <h3
-              className={`${cinzel.className} text-lg sm:text-xl md:text-2xl font-bold mb-1.5 sm:mb-2 md:mb-3 text-white`}
+              className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-2 sm:gap-2.5 text-[1.2rem] sm:text-[1.45rem] md:text-[1.65rem] leading-none tracking-[0.01em] mb-1.5 sm:mb-2 md:mb-3 text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]"
             >
-              Messages from Loved Ones
+              <span className="block">Messages from</span>
+              <span className="block">Loved Ones</span>
             </h3>
             <p
               className={`${cormorant.className} text-xs sm:text-sm md:text-base max-w-2xl mx-auto px-2 sm:px-4 text-white/90`}
             >
-              Read the beautiful messages shared by family and friends
+              Read the beautiful messages shared by family{" "}
+              <NameConnector size="sm">and</NameConnector>{" "}
+              friends
             </p>
           </div>
           

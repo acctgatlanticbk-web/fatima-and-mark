@@ -83,6 +83,18 @@ const playlistScript = localFont({
   display: "swap",
 })
 
+const safiraMarch = localFont({
+  src: "../Font/SafiraMarchPersonalUse-gxeKY.otf",
+  variable: "--font-safira-march",
+  display: "swap",
+})
+
+const andasia = localFont({
+  src: "../Font/andasia.regular.ttf",
+  variable: "--font-andasia",
+  display: "swap",
+})
+
 export const metadata: Metadata = {
   metadataBase: new URL(canonicalUrl),
   title: {
@@ -209,7 +221,7 @@ export default function RootLayout({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body
-        className={`${inter.variable} ${greatVibes.variable} ${imperialScript.variable} ${cinzel.variable} ${brittany.variable} ${playlistScript.variable} font-inter antialiased text-foreground`}
+        className={`${inter.variable} ${greatVibes.variable} ${imperialScript.variable} ${cinzel.variable} ${brittany.variable} ${playlistScript.variable} ${safiraMarch.variable} ${andasia.variable} font-inter antialiased text-foreground`}
       >
         <ClientLayout>
           {children}

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { motion } from "motion/react"
 import { Instagram, Facebook, Twitter, Share2, Copy, Download, Check } from "lucide-react"
 import { Section } from "@/components/section"
+import { NameConnector } from "@/components/couple-name-text"
 import { QRCodeCanvas } from "qrcode.react"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
@@ -24,6 +25,18 @@ const GLASS_CARD_CLASS =
 const INNER_PANEL_CLASS =
   "rounded-xl sm:rounded-2xl p-3 sm:p-5 md:p-7 lg:p-8 bg-white/10 backdrop-blur-sm"
 
+function CoupleNameInline() {
+  const { groomNickname, brideNickname } = useSiteConfig().couple
+
+  return (
+    <>
+      {groomNickname}
+      <NameConnector size="sm">&</NameConnector>
+      {brideNickname}
+    </>
+  )
+}
+
 function GlassOverlay() {
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -35,20 +48,6 @@ function GlassOverlay() {
         className="absolute bottom-[-6rem] right-[-2rem] h-64 w-64"
         style={{ background: "radial-gradient(circle at center, color-mix(in srgb, white 6%, transparent), transparent 60%)" }}
       />
-    </div>
-  )
-}
-
-function MotifDivider() {
-  return (
-    <div className="flex items-center justify-center gap-2">
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
-      <div className="flex gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-      </div>
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
     </div>
   )
 }
@@ -175,36 +174,41 @@ export function SnapShare() {
     >
       <div className="relative z-10 max-w-6xl mx-auto px-3 sm:px-6 md:px-8">
         <motion.div
-          className="text-center mb-5 sm:mb-8 md:mb-10"
+          className="flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-8 sm:mb-10 md:mb-12 px-3 sm:px-4"
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div
-            className={`${cormorant.className} inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/15 px-3 py-1.5 text-[10px] sm:text-xs uppercase text-white/90`}
-            style={{ letterSpacing: "0.3em" }}
-          >
-            Share your memories
-          </div>
-          <h2
-            className={`${cinzel.className} text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-white mt-2 sm:mt-4`}
-            style={{
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              textShadow: "0 2px 12px rgba(0,0,0,0.15)",
-              fontWeight: 600,
-            }}
-          >
-            Capture & Share the Celebration
-          </h2>
           <p
-            className={`${cormorant.className} text-xs sm:text-sm md:text-base text-white/90 max-w-2xl mx-auto mt-2 sm:mt-4 leading-relaxed px-2`}
+            className={`${cormorant.className} inline-flex flex-wrap items-baseline justify-center gap-y-1 text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
           >
-            Help us remember the little moments of {groomNickname} & {brideNickname}&apos;s day—every smile, embrace, and candid laugh. Your photos and clips complete our love story.
+            <CoupleNameInline />
           </p>
-          <div className="mt-3 sm:mt-5">
-            <MotifDivider />
-          </div>
+
+          <h2
+            className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-2.5 sm:gap-3 text-[1.35rem] sm:text-[1.75rem] md:text-[2.15rem] lg:text-[2.5rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
+          >
+            <span className="block">Capture</span>
+            <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1.5">
+              <NameConnector size="sm">and</NameConnector>
+              <span className="mt-2">Share</span>
+            </span>
+            <span className="block">the Celebration</span>
+          </h2>
+
+          <p
+            className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-2xl mx-auto leading-relaxed px-2`}
+          >
+            Help us remember the little moments of{" "}
+            <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1 not-italic">
+              <CoupleNameInline />
+            </span>
+            &apos;s day—every smile, embrace,{" "}
+            <NameConnector size="sm">and</NameConnector>{" "}
+            candid laugh. Your photos{" "}
+            <NameConnector size="sm">and</NameConnector>{" "}
+            clips complete our love story.
+          </p>
         </motion.div>
 
         <div className={`${GLASS_CARD_CLASS} max-w-2xl md:max-w-3xl mx-auto`}>
@@ -228,7 +232,11 @@ export function SnapShare() {
                 <p
                   className={`${cormorant.className} text-white/90 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed px-1`}
                 >
-                  Spread the word about {groomNickname} & {brideNickname}&apos;s wedding celebration. Share this QR code with friends and family so they can join the celebration.
+                  Spread the word about{" "}
+                  <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1">
+                    <CoupleNameInline />
+                  </span>
+                  &apos;s wedding celebration. Share this QR code with friends and family so they can join the celebration.
                 </p>
                 <div className="mx-auto inline-flex flex-col items-center bg-white/90 backdrop-blur-sm p-2.5 sm:p-5 md:p-7 rounded-xl sm:rounded-2xl shadow-md border border-white/40 mb-3 sm:mb-4 flex-1 justify-center">
                   <div className="mb-2 sm:mb-3 p-1.5 sm:p-3 rounded-lg sm:rounded-xl bg-white border border-white/80">
@@ -342,7 +350,11 @@ export function SnapShare() {
               <p
                 className={`${cormorant.className} text-white/90 text-xs sm:text-sm text-center mb-3 sm:mb-4 leading-relaxed`}
               >
-                Help spread the word about {groomNickname} & {brideNickname}&apos;s wedding celebration. Share the event across your favorite platforms.
+                Help spread the word about{" "}
+                <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1">
+                  <CoupleNameInline />
+                </span>
+                &apos;s wedding celebration. Share the event across your favorite platforms.
               </p>
               <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
                 <button
@@ -403,12 +415,16 @@ export function SnapShare() {
                     className={`${cormorant.className} inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-white/30 bg-white/15 px-2.5 py-1 text-[10px] sm:text-xs uppercase text-white/90 mb-2 sm:mb-3`}
                     style={{ letterSpacing: "0.28em" }}
                   >
-                    Upload Your Photos & Videos
+                    Upload Your Photos{" "}
+                    <NameConnector size="sm">&</NameConnector>{" "}
+                    Videos
                   </div>
                   <p
                     className={`${cormorant.className} text-white/90 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 px-1`}
                   >
-                    Help us capture our special day! Scan the QR or use the actions below to upload your photos and videos.
+                    Help us capture our special day! Scan the QR or use the actions below to upload your photos{" "}
+                    <NameConnector size="sm">and</NameConnector>{" "}
+                    videos.
                   </p>
                   <div className="mx-auto inline-flex flex-col items-center bg-white/90 backdrop-blur-sm p-2.5 sm:p-5 rounded-xl sm:rounded-2xl shadow-md border border-white/40 mb-3 sm:mb-4">
                     <div className="mb-2 sm:mb-3 p-1.5 sm:p-3 rounded-lg sm:rounded-xl bg-white border border-white/80">
@@ -495,8 +511,13 @@ export function SnapShare() {
             <p
               className={`${cormorant.className} text-white/95 text-sm sm:text-base md:text-lg leading-relaxed mb-3 sm:mb-4 px-2`}
             >
-              Thank you for helping make {groomNickname} & {brideNickname}&apos;s wedding celebration memorable. Your photos and messages create beautiful memories
-              that we will treasure for a lifetime.
+              Thank you for helping make{" "}
+              <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1">
+                <CoupleNameInline />
+              </span>
+              &apos;s wedding celebration memorable. Your photos{" "}
+              <NameConnector size="sm">and</NameConnector>{" "}
+              messages create beautiful memories that we will treasure for a lifetime.
             </p>
             <div
                 className={`${cormorant.className} flex items-center justify-center gap-2 text-white/90 text-xs sm:text-sm uppercase`}

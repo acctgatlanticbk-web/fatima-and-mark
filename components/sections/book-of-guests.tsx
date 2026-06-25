@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { RefreshCw, TrendingUp, Users, MapPin, Calendar, Crown } from "lucide-react"
+import { NameConnector } from "@/components/couple-name-text"
+import { useSiteConfig } from "@/hooks/use-site-config"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 
 const cormorant = Cormorant_Garamond({
@@ -36,6 +38,18 @@ const CARDS_PER_VIEW = 4
 const GLASS_CARD_CLASS =
   "relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-white/25 bg-white/15 backdrop-blur-lg shadow-[0_20px_70px_rgba(0,0,0,0.12)]"
 
+function CoupleNameInline() {
+  const { groomNickname, brideNickname } = useSiteConfig().couple
+
+  return (
+    <>
+      {groomNickname}
+      <NameConnector size="sm">&</NameConnector>
+      {brideNickname}
+    </>
+  )
+}
+
 function GlassOverlay() {
   return (
     <div className="pointer-events-none absolute inset-0" aria-hidden>
@@ -47,20 +61,6 @@ function GlassOverlay() {
         className="absolute bottom-[-6rem] right-[-2rem] h-64 w-64"
         style={{ background: "radial-gradient(circle at center, color-mix(in srgb, white 6%, transparent), transparent 60%)" }}
       />
-    </div>
-  )
-}
-
-function MotifDivider() {
-  return (
-    <div className="flex items-center justify-center gap-2">
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
-      <div className="flex gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-      </div>
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
     </div>
   )
 }
@@ -209,27 +209,21 @@ export function BookOfGuests() {
       className="relative z-10 overflow-hidden py-12 sm:py-16 md:py-20"
     >
       {/* Section Header */}
-      <div className="relative z-10 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4">
+      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-8 sm:mb-10 md:mb-12 px-3 sm:px-4">
         <p
-          className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] mb-2 text-white/90`}
+          className={`${cormorant.className} inline-flex flex-wrap items-baseline justify-center gap-y-1 text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
         >
-          Our Cherished Guests
+          <CoupleNameInline />
         </p>
-        <MotifDivider />
+
         <h2
-          className="leading-none text-white"
-          style={{
-            fontFamily: "var(--font-brittany), cursive",
-            fontSize: "clamp(2rem, 9vw, 4.5rem)",
-            letterSpacing: "0.01em",
-            textShadow: "0 2px 12px rgba(0,0,0,0.15)",
-            marginTop: "10px",
-          }}
+          className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-2.5 sm:gap-3 text-[1.35rem] sm:text-[1.75rem] md:text-[2.15rem] lg:text-[2.5rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
         >
-          Book of Guests
+          <span className="block">Book of Guests</span>
         </h2>
+
         <p
-          className={`${cormorant.className} text-xs sm:text-sm md:text-base font-light max-w-lg mx-auto leading-relaxed px-2 mt-2 sm:mt-2.5 text-white/90`}
+          className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-lg mx-auto leading-relaxed px-2 sm:px-4 mt-0.5 sm:mt-1`}
         >
           Meet the cherished souls joining us in celebration — your presence makes our day truly special
         </p>

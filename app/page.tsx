@@ -67,18 +67,15 @@ export default function Home() {
             <div className="h-12 sm:h-14 md:h-16" aria-hidden />
             <MainHero />
             <Welcome />             
-               {/* <CoupleVideo />  */}
-              {/* <LoveStory /> */}
             <Countdown />
             <Gallery />
             <Entourage />
             <Details />
-            <Messages />
             <GuestList />
-            <BookOfGuests />
-            {/* <PrincipalSponsors /> */}
+            <BookOfGuests /> 
+            <Messages />
             <FAQ />
-            <Registry />
+            {/* <Registry /> */}
             <SnapShare />
             <Footer />
           </div>

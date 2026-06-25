@@ -1,7 +1,7 @@
 "use client"
 
 import { Section } from "@/components/section"
-import Image from "next/image"
+import { NameConnector } from "@/components/couple-name-text"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { Heart } from "lucide-react"
 import { useSiteConfig } from "@/hooks/use-site-config"
@@ -24,6 +24,18 @@ const GLASS_CARD_CLASS =
 
 const GLASS_INNER_CLASS =
   "rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 p-4 sm:p-5 md:p-6"
+
+function CoupleNameInline() {
+  const { groomNickname, brideNickname } = useSiteConfig().couple
+
+  return (
+    <>
+      {groomNickname}
+      <NameConnector size="sm">&</NameConnector>
+      {brideNickname}
+    </>
+  )
+}
 
 export function Registry() {
   const siteConfig = useSiteConfig()
@@ -80,26 +92,22 @@ export function Registry() {
       </div> */}
 
       {/* Header */}
-      <div className="relative z-10 text-center mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6">
-        <div className="flex items-center justify-center gap-2 mb-4 sm:mb-5">
-          <div className="h-px w-16 sm:w-24 bg-white/40" />
-          <div className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-[0_0_18px_rgba(255,255,255,0.25)]" />
-          <div className="h-px w-16 sm:w-24 bg-white/40" />
-        </div>
-        <h2
-          className="leading-none text-white"
-          style={{
-            fontFamily: "var(--font-brittany), cursive",
-            fontSize: "clamp(2rem, 9vw, 4.5rem)",
-            letterSpacing: "0.01em",
-            textShadow: "0 3px 16px rgba(0,0,0,0.25)",
-          }}
-        >
-          Gift Guide
-        </h2>
+      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-10 sm:mb-14 md:mb-16 px-4 sm:px-6">
         <p
-          className={`${cinzel.className} text-sm sm:text-base md:text-lg text-white/90 font-normal max-w-2xl mx-auto leading-relaxed tracking-[0.14em] px-4 mt-2`}
-          style={{ textShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+          className={`${cormorant.className} inline-flex flex-wrap items-baseline justify-center gap-y-1 text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
+        >
+          <CoupleNameInline />
+        </p>
+
+        <h2
+          className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-2.5 sm:gap-3 text-[1.35rem] sm:text-[1.75rem] md:text-[2.15rem] lg:text-[2.5rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
+        >
+          <span className="block">Gift Guide</span>
+        
+        </h2>
+
+        <p
+          className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-2xl mx-auto leading-relaxed px-2 sm:px-4 mt-0.5 sm:mt-1`}
         >
           Your presence is the greatest gift we could ask for.
         </p>
@@ -110,7 +118,11 @@ export function Registry() {
         <div className={GLASS_CARD_CLASS}>
           <div className="p-3 sm:p-5 md:p-7 lg:p-9 space-y-4 sm:space-y-6">
             <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-2xl mx-auto leading-relaxed text-center`}>
-            Your presence at our wedding is the greatest gift we could ask for. Your love, laughter, and company on our special day are more than enough. Should you wish to honor us with a gift, a monetary contribution toward our future together would be deeply appreciated and gratefully received
+            Your presence at our wedding is the greatest gift we could ask for. Your love, laughter,{" "}
+            <NameConnector size="sm">and</NameConnector>{" "}
+            company on our special day are more than enough. Should you wish to honor us with a gift, a monetary contribution toward our future together would be deeply appreciated{" "}
+            <NameConnector size="sm">and</NameConnector>{" "}
+            gratefully received
             </p>
 
             {/* {Object.values(siteConfig.giftRegistry ?? {}).length > 0 && (
@@ -150,13 +162,11 @@ export function Registry() {
                 With love,
               </p>
               <p
-                className="text-white mt-1 sm:mt-1.5"
-                style={{
-                  fontFamily: "var(--font-brittany), cursive",
-                  fontSize: "clamp(1.25rem, 4vw, 1.75rem)",
-                }}
+                className="font-[family-name:var(--font-safira-march)] inline-flex flex-wrap items-baseline justify-center gap-y-1 text-[0.85rem] sm:text-[0.95rem] md:text-[1.05rem] text-white mt-1 sm:mt-1.5 leading-none tracking-[0.03em] [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]"
               >
-                {siteConfig.couple.brideNickname} &amp; {siteConfig.couple.groomNickname}
+                {siteConfig.couple.brideNickname}
+                <NameConnector size="sm">&</NameConnector>
+                {siteConfig.couple.groomNickname}
               </p>
             </div>
           </div>

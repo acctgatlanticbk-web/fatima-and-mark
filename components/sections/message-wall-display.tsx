@@ -69,9 +69,10 @@ export default function MessageWallDisplay({ messages, loading }: MessageWallDis
           </div>
         </div>
         <h3
-          className={`${cormorant.className} text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3 md:mb-4 text-white`}
+          className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-2 sm:gap-2.5 text-[1.2rem] sm:text-[1.45rem] md:text-[1.75rem] lg:text-[2rem] leading-none tracking-[0.01em] mb-2 sm:mb-3 md:mb-4 text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]"
         >
-          No Messages Yet
+          <span className="block">No Messages</span>
+          <span className="block">Yet</span>
         </h3>
         <p
           className={`${cormorant.className} text-xs sm:text-sm md:text-base lg:text-lg max-w-md mx-auto leading-relaxed mb-4 sm:mb-5 md:mb-6 text-white/90`}

@@ -5,6 +5,7 @@ import type { SiteConfig } from "@/lib/site-config"
 import { ChevronDown } from "lucide-react"
 import { Section } from "@/components/section"
 import Image from "next/image"
+import { NameConnector } from "@/components/couple-name-text"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { useSiteConfig } from "@/hooks/use-site-config"
 
@@ -26,6 +27,18 @@ const GLASS_CARD_CLASS =
 
 const GLASS_INNER_CLASS =
   "rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 transition-all duration-300"
+
+function CoupleNameInline() {
+  const { groomNickname, brideNickname } = useSiteConfig().couple
+
+  return (
+    <>
+      {groomNickname}
+      <NameConnector size="sm">&</NameConnector>
+      {brideNickname}
+    </>
+  )
+}
 
 const LINK_CLASS =
   "underline font-semibold text-white transition-colors hover:text-white/75"
@@ -75,7 +88,7 @@ function getFaqItems(siteConfig: SiteConfig): FAQItem[] {
             rel="noopener noreferrer"
             className={LINK_CLASS}
           >
-            {siteConfig.details.rsvp.contact}
+             {siteConfig.couple.bride}
           </a>{" "}
           or{" "}
           <a
@@ -100,11 +113,11 @@ function getFaqItems(siteConfig: SiteConfig): FAQItem[] {
       answer:
         "Yes, parking is available at the venue, and parking attendants, along with our coordinators, will assist you on the day",
     },
-    {
-      question: "Will there be a wedding gift registry?",
-      answer:
-        "With all that we have, we are truly blessed. Your presence and prayers are what we request most. However, if you desire to give nonetheless, a monetary gift to help us begin our new life together would be humbly appreciated. You can find our gift registry information in the Gift Guide section.",
-    },
+    // {
+    //   question: "Will there be a wedding gift registry?",
+    //   answer:
+    //     "With all that we have, we are truly blessed. Your presence and prayers are what we request most. However, if you desire to give nonetheless, a monetary gift to help us begin our new life together would be humbly appreciated. You can find our gift registry information in the Gift Guide section.",
+    // },
     {
       question: "Unplugged Ceremony",
       answer:
@@ -128,18 +141,18 @@ function getFaqItems(siteConfig: SiteConfig): FAQItem[] {
     {
       question: "When is the appropriate time to leave?",
       answer:
-        "It took us some time to plan for a heartfelt wedding that everyone would hopefully enjoy. We humbly request that you celebrate with us until the program ends. Please don't eat and run! Let's laugh, take pictures, sing, and have fun!",
+        "It took us some time to plan for a heartfelt wedding that everyone would hopefully enjoy. We humbly request that you celebrate with us until the program ends. Let's laugh, take pictures, sing, and have fun!",
     },
     {
       question: "Can I bring my children to the wedding?",
       answer:
         "We adore your little ones — truly. However, we have lovingly planned this as an adults-only celebration so that every guest, including you, can fully relax, enjoy the program, and be present in the moment.\n\nWe kindly ask that you make childcare arrangements for the day. We hope you understand, and we are so grateful that you are celebrating this milestone with us.",
     },
-    {
-      question: "What if I have dietary restrictions or allergies?",
-      answer:
-        "Please let us know about any dietary restrictions or allergies when you RSVP. We want to ensure everyone can enjoy the celebration comfortably.",
-    },
+    // {
+    //   question: "What if I have dietary restrictions or allergies?",
+    //   answer:
+    //     "Please let us know about any dietary restrictions or allergies when you RSVP. We want to ensure everyone can enjoy the celebration comfortably.",
+    // },
     {
       question: "How can I help the couple have a great time during their wedding?",
       answer:
@@ -244,28 +257,27 @@ export function FAQ() {
       </div> */}
 
       {/* Header */}
-      <div className="relative z-10 text-center mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6">
-        <div className="flex items-center justify-center gap-2 mb-4 sm:mb-5">
-          <div className="h-px w-16 sm:w-24 bg-white/40" />
-          <div className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-[0_0_18px_rgba(255,255,255,0.25)]" />
-          <div className="h-px w-16 sm:w-24 bg-white/40" />
-        </div>
-        <h2
-          className="leading-none text-white"
-          style={{
-            fontFamily: "var(--font-brittany), cursive",
-            fontSize: "clamp(2rem, 9vw, 4.5rem)",
-            letterSpacing: "0.01em",
-            textShadow: "0 3px 16px rgba(0,0,0,0.25)",
-          }}
-        >
-          Frequently Asked Questions
-        </h2>
+      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-10 sm:mb-14 md:mb-16 px-4 sm:px-6">
         <p
-          className={`${cinzel.className} text-sm sm:text-base md:text-lg text-white/90 font-normal max-w-xl mx-auto leading-relaxed tracking-[0.14em] px-4 mt-2`}
-          style={{ textShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+          className={`${cormorant.className} inline-flex flex-wrap items-baseline justify-center gap-y-1 text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
         >
-          Helpful notes so you can simply arrive, celebrate, and enjoy this new chapter with us.
+          <CoupleNameInline />
+        </p>
+
+        <h2
+          className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-2.5 sm:gap-3 text-[1.35rem] sm:text-[1.75rem] md:text-[2.15rem] lg:text-[2.5rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
+        >
+          <span className="block">Frequently</span>
+          <span className="block">Asked</span>
+          <span className="block">Questions</span>
+        </h2>
+
+        <p
+          className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-xl mx-auto leading-relaxed px-2 sm:px-4 mt-0.5 sm:mt-1`}
+        >
+          Helpful notes so you can simply arrive, celebrate,{" "}
+          <NameConnector size="sm">and</NameConnector>{" "}
+          enjoy this new chapter with us.
         </p>
       </div>
 

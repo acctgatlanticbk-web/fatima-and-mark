@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react"
 import { motion } from "motion/react"
 import { Instagram, Twitter, Facebook, MapPin, Calendar, Clock, Heart, Music2 } from "lucide-react"
 import { useSiteConfig } from "@/hooks/use-site-config"
+import { NameConnector, StyledName } from "@/components/couple-name-text"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import Image from "next/image"
 
@@ -35,6 +36,18 @@ const toTitleCase = (str: string) =>
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
+
+function CoupleNameInline() {
+  const { groomNickname, brideNickname } = useSiteConfig().couple
+
+  return (
+    <>
+      {groomNickname}
+      <NameConnector size="sm">and</NameConnector>
+      {brideNickname}
+    </>
+  )
+}
 
 export function Footer() {
   const siteConfig = useSiteConfig()
@@ -136,7 +149,7 @@ export function Footer() {
           aria-hidden
         />
       </div> */}
-      <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
+      {/* <div className="absolute left-0 bottom-0 z-0 pointer-events-none">
         <Image
           src="/decoration/left-bottom-deco.png"
           alt=""
@@ -146,8 +159,8 @@ export function Footer() {
           priority={false}
           aria-hidden
         />
-      </div>
-      <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
+      </div> */}
+      {/* <div className="absolute right-0 bottom-0 z-0 pointer-events-none">
         <Image
           src="/decoration/left-bottom-deco.png"
           alt=""
@@ -157,7 +170,7 @@ export function Footer() {
           priority={false}
           aria-hidden
         />
-      </div>
+      </div> */}
 
       {/* Monogram & couple header */}
       <div className="relative z-10 flex flex-col items-center mb-10 sm:mb-12 md:mb-16 px-4 sm:px-6">
@@ -169,31 +182,20 @@ export function Footer() {
         >
           <Image
             src={siteConfig.couple.monogram}
-            alt={`${groomNickname} & ${brideNickname} monogram`}
+            alt={`${groomNickname} and ${brideNickname} monogram`}
             fill
             className="object-contain brightness-0 invert opacity-90"
             priority={false}
           />
         </motion.div>
 
-        <div className="mt-4 sm:mt-5 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
-            <div className="h-px w-12 sm:w-16 bg-white/40" />
-            <div className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-[0_0_18px_rgba(255,255,255,0.25)]" />
-            <div className="h-px w-12 sm:w-16 bg-white/40" />
-          </div>
-          <h2
-            className="leading-none text-white"
-            style={{
-              fontFamily: "var(--font-brittany), cursive",
-              fontSize: "clamp(1.75rem, 7vw, 3.5rem)",
-              letterSpacing: "0.01em",
-              textShadow: "0 3px 16px rgba(0,0,0,0.25)",
-            }}
-          >
-            {groomNickname} & {brideNickname}
-          </h2>
-          <p className={`${cinzel.className} text-sm sm:text-base md:text-lg text-white/90 mt-2 tracking-[0.12em]`}>
+        <div className="mt-4 sm:mt-5 text-center w-full max-w-[18rem] sm:max-w-[22rem] md:max-w-none mx-auto px-2 sm:px-0">
+          <p className="font-[family-name:var(--font-safira-march)] inline-flex flex-wrap items-baseline justify-center gap-x-0 gap-y-0.5 sm:gap-y-1 text-[0.78rem] sm:text-[1rem] md:text-[1.3rem] lg:text-[1.6rem] leading-none tracking-[0.02em] sm:tracking-[0.03em] text-white [text-shadow:0_3px_16px_rgba(0,0,0,0.25)]">
+            <StyledName name={groomNickname} />
+            <NameConnector size="sm">and</NameConnector>
+            <StyledName name={brideNickname} />
+          </p>
+          <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 mt-2 sm:mt-3 tracking-[0.08em]`}>
             {ceremonyDate}
           </p>
           <p className={`${cormorant.className} text-xs sm:text-sm md:text-base text-white/75 mt-1`}>
@@ -214,12 +216,14 @@ export function Footer() {
               {/* Couple info + quote */}
               <motion.div className="lg:col-span-2" variants={fadeInUp}>
                 <div className="mb-4 sm:mb-5">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                    <div className={`${ICON_WRAP_CLASS} w-10 h-10 sm:w-11 sm:h-11`}>
+                  <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-3 mb-3 sm:mb-4">
+                    {/* <div className={`${ICON_WRAP_CLASS} w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 shrink-0`}>
                       <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-white fill-white/80" />
-                    </div>
-                    <h3 className={`${cinzel.className} text-lg sm:text-xl md:text-2xl text-white`}>
-                      {groomNickname} & {brideNickname}
+                    </div> */}
+                    <h3 className="font-[family-name:var(--font-safira-march)] inline-flex flex-wrap items-baseline mt-3 gap-y-0.5 max-w-full text-[0.78rem] sm:text-[0.95rem] md:text-[1.1rem] lg:text-[1.25rem] text-white leading-none tracking-[0.02em] sm:tracking-[0.03em] [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
+                      <StyledName name={groomNickname} />
+                      <NameConnector size="sm">and</NameConnector>
+                      <StyledName name={brideNickname} />
                     </h3>
                   </div>
                   <div className="space-y-2 sm:space-y-2.5">
@@ -239,11 +243,6 @@ export function Footer() {
                     &quot;{displayedText}
                     <span className="inline-block w-0.5 h-4 sm:h-5 bg-white/70 ml-1 animate-pulse">|</span>&quot;
                   </blockquote>
-                  <div className="flex items-center gap-1.5 mt-3 sm:mt-4">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/80" />
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/50" />
-                    <div className="w-1.5 h-1.5 rounded-full bg-white/80" />
-                  </div>
                 </motion.div>
               </motion.div>
 
@@ -255,8 +254,10 @@ export function Footer() {
                       <div className={ICON_WRAP_CLASS}>
                         <MapPin className="w-4 h-4 text-white" />
                       </div>
-                      <h4 className={`${cinzel.className} font-semibold text-sm sm:text-base md:text-lg text-white`}>
-                        Ceremony & Reception
+                      <h4 className={`${cinzel.className} font-semibold text-sm sm:text-base md:text-lg text-white inline-flex flex-wrap items-baseline gap-y-1`}>
+                        Ceremony
+                        <NameConnector size="sm">and</NameConnector>
+                        Reception
                       </h4>
                     </div>
                     <div className={`space-y-2 ${cormorant.className} text-xs sm:text-sm text-white/85 leading-relaxed`}>
@@ -387,7 +388,13 @@ export function Footer() {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 md:gap-5">
                   <div className="text-center md:text-left">
                     <p className={`${cormorant.className} text-xs sm:text-sm text-white/80 leading-relaxed`}>
-                      © {year} {groomNickname} & {brideNickname} — crafted with love, prayers, and gratitude.
+                      © {year}{" "}
+                      <span className="inline-flex flex-wrap items-baseline justify-center gap-y-1">
+                        <CoupleNameInline />
+                      </span>
+                      {" "}— crafted with love, prayers,{" "}
+                      <NameConnector size="sm">and</NameConnector>{" "}
+                      gratitude.
                     </p>
                     <p className={`${cormorant.className} text-xs sm:text-sm mt-1 text-white/70 leading-relaxed`}>
                       This celebration site was designed to share our story and joy with you.

@@ -21,6 +21,7 @@ import {
   ChevronRight,
 } from "lucide-react"
 import { Cormorant_Garamond, Cinzel } from "next/font/google"
+import { NameConnector } from "@/components/couple-name-text"
 import Image from "next/image"
 import { useSiteConfig } from "@/hooks/use-site-config"
 
@@ -45,6 +46,18 @@ const GLASS_INNER_CLASS =
 
 const SUGGESTION_DROPDOWN_CLASS =
   "fixed z-[9999] rounded-xl sm:rounded-2xl border border-white/60 bg-white shadow-[0_24px_64px_rgba(0,0,0,0.28),0_8px_24px_rgba(0,0,0,0.14)] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+
+function CoupleNameInline() {
+  const { groomNickname, brideNickname } = useSiteConfig().couple
+
+  return (
+    <>
+      {groomNickname}
+      <NameConnector size="sm">&</NameConnector>
+      {brideNickname}
+    </>
+  )
+}
 
 function highlightNameMatch(name: string, query: string) {
   const normalizedQuery = query.trim().toLowerCase()
@@ -522,38 +535,40 @@ export function GuestList() {
       </div> */}
 
       {/* Header */}
-      <div className="relative z-10 text-center mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6">
-        {/* <div className="flex items-center justify-center gap-2 mb-4 sm:mb-5">
-          <div className="h-px w-16 sm:w-24 bg-white/40" />
-          <div className="w-1.5 h-1.5 rounded-full bg-white/80 shadow-[0_0_18px_rgba(255,255,255,0.25)]" />
-          <div className="h-px w-16 sm:w-24 bg-white/40" />
-        </div> */}
+      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-10 sm:mb-14 md:mb-16 px-4 sm:px-6">
+        <p
+          className={`${cormorant.className} inline-flex flex-wrap items-baseline justify-center gap-y-1 text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
+        >
+          <CoupleNameInline />
+        </p>
+
         <h2
-          className="leading-none text-white"
-          style={{
-            fontFamily: "var(--font-brittany), cursive",
-            fontSize: "clamp(2rem, 9vw, 4.5rem)",
-            letterSpacing: "0.01em",
-            textShadow: "0 3px 16px rgba(0,0,0,0.25)",
-          }}
+          className="font-[family-name:var(--font-safira-march)] text-[1.75rem] sm:text-[2.25rem] md:text-[2.75rem] lg:text-[3.25rem] xl:text-[3.75rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
         >
           RSVP
         </h2>
+
         <p
-          className={`${cinzel.className} text-sm sm:text-base md:text-lg text-white/90 font-normal max-w-xl mx-auto leading-relaxed tracking-[0.14em] px-4 mt-2`}
-          style={{ textShadow: "0 2px 8px rgba(0,0,0,0.2)" }}
+          className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-xl mx-auto leading-relaxed px-2 sm:px-4 mt-0.5 sm:mt-1`}
         >
           Confirm your attendance for our special day.
         </p>
-        <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-4 mt-4 mb-2`}>
-          To help us plan a beautiful and intimate celebration, we kindly ask that you confirm your attendance. Please search for your name below to confirm your presence at our special day.
-        </p>
-        <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light max-w-xl mx-auto leading-relaxed px-4 mb-2`}>
-          If we do not receive your response by the deadline, we will assume you are unable to attend. Thank you for your love and support. We truly look forward to celebrating this special day with you.
-        </p>
-        <p className={`${cinzel.className} text-sm sm:text-base md:text-lg text-white font-semibold max-w-xl mx-auto leading-relaxed px-4 tracking-[0.1em]`}>
-          RSVP Deadline: {siteConfig.details.rsvp.deadline}
-        </p>
+
+        <div className="flex flex-col gap-3 sm:gap-4 max-w-xl mx-auto px-4">
+          <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light leading-relaxed`}>
+            To help us plan a beautiful{" "}
+            <NameConnector size="sm">and</NameConnector>{" "}
+            intimate celebration, we kindly ask that you confirm your attendance. Please search for your name below to confirm your presence at our special day.
+          </p>
+          <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white/90 font-light leading-relaxed`}>
+            If we do not receive your response by the deadline, we will assume you are unable to attend. Thank you for your love{" "}
+            <NameConnector size="sm">and</NameConnector>{" "}
+            support. We truly look forward to celebrating this special day with you.
+          </p>
+          <p className={`${cormorant.className} text-sm sm:text-base md:text-lg text-white font-semibold leading-relaxed tracking-[0.08em] sm:tracking-[0.1em]`}>
+            RSVP Deadline: {siteConfig.details.rsvp.deadline}
+          </p>
+        </div>
       </div>
 
       {/* Search Section */}

@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react"
 import { Section } from "@/components/section"
 import { motion } from "motion/react"
-import { Cinzel } from "next/font/google"
+import { Cormorant_Garamond, Cinzel } from "next/font/google"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import Counter from "@/components/Counter"
-import { CloudinaryImage } from "@/components/ui/cloudinary-image"
+import { CoupleNames } from "@/components/couple-name-text"
 import Image from "next/image"
 
 interface TimeLeft {
@@ -21,14 +21,14 @@ interface CountdownUnitProps {
   label: string
 }
 
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+})
+
 const cinzel = Cinzel({
   subsets: ["latin"],
   weight: ["700"],
-})
-
-const cinzelRegular = Cinzel({
-  subsets: ["latin"],
-  weight: "400",
 })
 
 const textColor = "#ffffff"
@@ -230,7 +230,7 @@ export function Countdown() {
           className="relative"
         >
           <div className="relative w-72 h-72 sm:w-96 sm:h-96 md:w-[28rem] md:h-[28rem] lg:w-[36rem] lg:h-[36rem] xl:w-[40rem] xl:h-[40rem] opacity-90">
-            <CloudinaryImage
+            <Image
               src={siteConfig.couple.monogram}
               alt={`${groomNickname} & ${brideNickname} Monogram`}
               fill
@@ -246,29 +246,25 @@ export function Countdown() {
 
       {/* Header */}
       <div className="relative z-10 text-center mb-6 sm:mb-8 md:mb-10 px-3 sm:px-4">
-        {/* Decorative element above title */}
-        <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
-          <span className="h-px w-8 rounded-full bg-white/40 sm:w-12 md:w-16" />
-          <div className="flex gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-            <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-            <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
+        <div className="flex flex-col items-center gap-3.5 sm:gap-4 md:gap-5">
+          <CoupleNames groomName={groomNickname} brideName={brideNickname} connector="and" />
+
+          <div
+            className="flex items-center justify-center gap-2 w-full max-w-[12rem] sm:max-w-[14rem] md:max-w-[16rem] mt-0.5 sm:mt-1"
+            aria-hidden="true"
+          >
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-white/45" />
+            <div className="w-1 h-1 rounded-full bg-white/75 shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)]" />
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent via-white/30 to-white/45" />
           </div>
-          <span className="h-px w-8 rounded-full bg-white/40 sm:w-12 md:w-16" />
-        </div>
-        
-        <h2
-          className={`${cinzelRegular.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal mb-2 sm:mb-3 md:mb-4 text-white`}
-          style={{ textShadow: "0 3px 16px rgba(0,0,0,0.25)" }}
-        >
-          Counting down to our forever
-        </h2>
-        
-        {/* Decorative element below subtitle */}
-        <div className="flex items-center justify-center gap-2 mt-3 sm:mt-4">
-          <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-          <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-          <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
+
+          <h2
+            className="font-[family-name:var(--font-safira-march)] flex flex-col items-center gap-3 sm:gap-2.5 md:gap-3 lg:gap-3.5 text-[1.1rem] sm:text-[1.85rem] md:text-[2.65rem] lg:text-[3.35rem] xl:text-[4rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white max-w-[15rem] sm:max-w-[24rem] md:max-w-none mx-auto px-2 sm:px-3 md:px-0 mt-0.5 sm:mt-1 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
+          >
+            <span className="block">Counting down</span>
+            <span className="block">to our</span>
+            <span className="block">forever</span>
+          </h2>
         </div>
       </div>
 
@@ -290,17 +286,15 @@ export function Countdown() {
         {/* Date Section */}
         <div className="relative sm:rounded-3xl p-6 sm:p-8 md:p-10 mb-6 sm:mb-8 mt-4 sm:mt-6">
           <div className="w-full max-w-2xl mx-auto">
-            <div
-              className={`${cinzel.className} flex flex-col items-center gap-1.5 sm:gap-2.5 md:gap-3 font-bold text-white`}
-            >
-              <span className="text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/90">
+            <div className="flex flex-col items-center gap-1.5 sm:gap-2.5 md:gap-3 text-white">
+              <span className={`${cinzel.className} text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/90`}>
                 {ceremonyMonth}
               </span>
 
               <div className="flex w-full items-center gap-2 sm:gap-4 md:gap-5">
                 <div className="flex flex-1 items-center justify-end gap-1.5 sm:gap-2.5">
                   <span className="h-px flex-1 rounded-full bg-white/40" />
-                  <span className="text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/90">
+                  <span className={`${cinzel.className} text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/90`}>
                     {ceremonyDayShort}
                   </span>
                   <span className="h-px w-6 rounded-full bg-white/40 sm:w-8 md:w-10" />
@@ -321,14 +315,14 @@ export function Countdown() {
 
                 <div className="flex flex-1 items-center gap-1.5 sm:gap-2.5">
                   <span className="h-px w-6 rounded-full bg-white/40 sm:w-8 md:w-10" />
-                  <span className="text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/90">
+                  <span className={`${cinzel.className} text-[0.6rem] sm:text-[0.7rem] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/90`}>
                     {ceremonyTimeDisplay.split(",")[0]}
                   </span>
                   <span className="h-px flex-1 rounded-full bg-white/40" />
                 </div>
               </div>
 
-              <span className="text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/90">
+              <span className={`${cinzel.className} text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em] text-white/90`}>
                 {ceremonyYear}
               </span>
             </div>

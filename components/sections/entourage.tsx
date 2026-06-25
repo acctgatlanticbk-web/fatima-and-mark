@@ -55,20 +55,6 @@ const accentColor = "rgba(255,255,255,0.85)"
 const CORNER_DECO_CLASS =
   "w-auto h-auto max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] opacity-80 drop-shadow-[0_10px_28px_rgba(0,0,0,0.35)]"
 
-function MotifDivider() {
-  return (
-    <div className="flex items-center justify-center gap-2">
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
-      <div className="flex gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-      </div>
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
-    </div>
-  )
-}
-
 function mapStaticEntourage(): EntourageMember[] {
   const roleToCategory: Record<string, string> = {
     "Best Man": "Best Man",
@@ -444,30 +430,28 @@ export function Entourage() {
       </div> */}
 
       {/* Section Header */}
-      <div className={`relative z-30 text-center  sm:mb-5 md:mb-6 px-3 sm:px-4 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}> 
-       {/* mt-10 sm:mt-12 md:mt-14 lg:mt-16 mb-4 */}
+      <div
+        className={`relative z-30 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-8 sm:mb-10 md:mb-12 px-3 sm:px-4 transition-all duration-1000 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
+        }`}
+      >
         <p
-          className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] mb-2 text-white/90 max-w-xs sm:max-w-sm mx-auto leading-relaxed`}
+          className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90 max-w-xs sm:max-w-sm leading-relaxed`}
         >
           <span className="block">Those who stand with</span>
           <span className="block mt-1 tracking-[0.22em] sm:tracking-[0.24em]">
             {siteConfig.couple.groomNickname} &amp; {siteConfig.couple.brideNickname}
           </span>
         </p>
-{/* 
-        <MotifDivider /> */}
 
         <h2
-          className={`${cinzel.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-1 sm:mb-2 md:mb-2.5 text-white`}
-          style={{
-            textShadow: "0 2px 12px rgba(0,0,0,0.15)",
-          }}
+          className="font-[family-name:var(--font-safira-march)] text-[clamp(1.6rem,5.8vw,2rem)] sm:text-[2.85rem] md:text-[3.55rem] lg:text-[4.1rem] xl:text-[4.6rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
         >
           Wedding Entourage
         </h2>
 
         <p
-          className={`${cormorant.className} text-xs sm:text-sm md:text-base mb-2 sm:mb-2.5 md:mb-3 italic text-white/90`}
+          className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-xl mx-auto leading-relaxed px-2 sm:px-3 mt-0.5 sm:mt-1`}
         >
           Honoring those who share in our joy
         </p>

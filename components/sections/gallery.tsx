@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
-import { Cormorant_Garamond, Cinzel } from "next/font/google"
+import { Cormorant_Garamond } from "next/font/google"
 import { useSiteConfig } from "@/hooks/use-site-config"
 import {
   Carousel,
@@ -21,14 +21,13 @@ const primaryBtnClass =
 
 function MotifDivider() {
   return (
-    <div className="flex items-center justify-center gap-2">
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
-      <div className="flex gap-1.5">
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
-        <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-      </div>
-      <span className="h-px w-10 rounded-full bg-white/40 sm:w-14" />
+    <div
+      className="flex items-center justify-center gap-2 w-full max-w-[12rem] sm:max-w-[14rem] md:max-w-[16rem]"
+      aria-hidden="true"
+    >
+      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-white/45" />
+      <div className="w-1 h-1 rounded-full bg-white/75 shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)]" />
+      <div className="h-px flex-1 bg-gradient-to-l from-transparent via-white/30 to-white/45" />
     </div>
   )
 }
@@ -51,11 +50,6 @@ function GlassOverlay() {
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400"],
-})
-
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  weight: ["400", "600"],
 })
 
 const galleryItems = [
@@ -301,27 +295,26 @@ export function Gallery() {
       >
         {/* Section Header */}
         <div
-          className={`relative z-30 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4 transition-all duration-1000 ${
+          className={`relative z-30 flex flex-col items-center gap-3 sm:gap-4 md:gap-5 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
           }`}
         >
           <p
-            className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] mb-2 text-white/90`}
+            className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
           >
             {siteConfig.couple.groomNickname} &amp; {siteConfig.couple.brideNickname}
           </p>
 
-          <MotifDivider />
+          {/* <MotifDivider /> */}
 
           <h2
-            className={`${cinzel.className} text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-1 sm:mb-2 md:mb-2.5 text-white`}
-            style={{ textShadow: "0 2px 12px rgba(0,0,0,0.15)" }}
+            className="font-[family-name:var(--font-safira-march)] text-[2rem] sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
           >
             Gallery
           </h2>
 
           <p
-            className={`${cormorant.className} text-xs sm:text-sm md:text-base mb-2 sm:mb-2.5 md:mb-3 italic text-white/90 max-w-xl mx-auto leading-relaxed px-2`}
+            className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-xl mx-auto leading-relaxed px-2 sm:px-3`}
           >
             From our first chapter to this beautiful season of commitment, every moment has been a testament to love, faith, and grace.
           </p>
