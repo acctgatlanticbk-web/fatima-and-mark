@@ -115,9 +115,8 @@ const ROLE_CATEGORY_ORDER = [
   "Flower Girls",
 ]
 
+/** Categories with dedicated combined layouts below — not the default single-title block. */
 const HIDDEN_ROLE_CATEGORIES = new Set<string>([
-  "Parents of the Groom",
-  "Parents of the Bride",
   "Matron of Honor",
   "Ring Bearer",
   "Bible Bearer",
@@ -139,6 +138,16 @@ function toTitleCaseDisplayName(name: string): string {
     /(^|[\s'\-])(\p{L})/gu,
     (_, sep: string, letter: string) => sep + letter.toLocaleUpperCase("es")
   )
+}
+
+function sortParents(members: EntourageMember[]): EntourageMember[] {
+  return [...members].sort((a, b) => {
+    const aIsFather = a.roleTitle?.toLowerCase().includes("father") ?? false
+    const bIsFather = b.roleTitle?.toLowerCase().includes("father") ?? false
+    if (aIsFather && !bIsFather) return -1
+    if (!aIsFather && bIsFather) return 1
+    return 0
+  })
 }
 
 export function Entourage() {
@@ -271,6 +280,16 @@ export function Entourage() {
         })
 
   const officiatingMinister = grouped["OFFICIATING MINISTER"] ?? []
+
+  const parentsGroom = useMemo(
+    () => sortParents(grouped["Parents of the Groom"] ?? []),
+    [grouped]
+  )
+  const parentsBride = useMemo(
+    () => sortParents(grouped["Parents of the Bride"] ?? []),
+    [grouped]
+  )
+  const hasParentsSection = parentsGroom.length > 0 || parentsBride.length > 0
 
   // Helper component for elegant section titles (category labels)
   const SectionTitle = ({
@@ -517,6 +536,32 @@ export function Entourage() {
                 </TwoColumnLayout>
               </div>
 
+              {hasParentsSection && (
+                <div key="Parents">
+                  <TwoColumnLayout leftTitle="Groom’s Parents" rightTitle="Bride’s Parents">
+                    {(() => {
+                      const maxLen = Math.max(parentsGroom.length, parentsBride.length)
+                      const rows = []
+                      for (let i = 0; i < maxLen; i++) {
+                        const left = parentsGroom[i]
+                        const right = parentsBride[i]
+                        rows.push(
+                          <React.Fragment key={`parents-row-${i}`}>
+                            <div className="px-1.5 sm:px-2 md:px-2.5">
+                              {left ? <NameItem member={left} align="right" /> : <div className="py-0.5" />}
+                            </div>
+                            <div className="px-1.5 sm:px-2 md:px-2.5">
+                              {right ? <NameItem member={right} align="left" /> : <div className="py-0.5" />}
+                            </div>
+                          </React.Fragment>
+                        )
+                      }
+                      return rows
+                    })()}
+                  </TwoColumnLayout>
+                </div>
+              )}
+
               {/* Officiating Minister */}
               {officiatingMinister.length > 0 && (
                 <div key="OfficiatingMinister">
@@ -584,58 +629,12 @@ export function Entourage() {
                 if (HIDDEN_ROLE_CATEGORIES.has(category)) return null
 
                 // Already rendered above
-                if (category === "The Couple" || category === "OFFICIATING MINISTER") return null
-
-                // Special handling for Parents sections - combine into single two-column layout
-                if (category === "Parents of the Bride" || category === "Parents of the Groom") {
-                  // Get both parent groups
-                  const parentsBride = grouped["Parents of the Bride"] || []
-                  const parentsGroom = grouped["Parents of the Groom"] || []
-                  
-                  // Helper function to sort parents: father first, then mother
-                  const sortParents = (members: EntourageMember[]) => {
-                    return [...members].sort((a, b) => {
-                      const aIsFather = a.roleTitle?.toLowerCase().includes('father') ?? false
-                      const bIsFather = b.roleTitle?.toLowerCase().includes('father') ?? false
-                      
-                      // Father comes first
-                      if (aIsFather && !bIsFather) return -1
-                      if (!aIsFather && bIsFather) return 1
-                      return 0
-                    })
-                  }
-                  
-                  // Only render once (when processing "Parents of the Groom")
-                  if (category === "Parents of the Groom") {
-                    return (
-                      <div key="Parents">
-                        <TwoColumnLayout leftTitle="Groom’s Parents" rightTitle="Bride’s Parents">
-                          {(() => {
-                            const leftArr = sortParents(parentsGroom)
-                            const rightArr = sortParents(parentsBride)
-                            const maxLen = Math.max(leftArr.length, rightArr.length)
-                            const rows = []
-                            for (let i = 0; i < maxLen; i++) {
-                              const left = leftArr[i]
-                              const right = rightArr[i]
-                              rows.push(
-                                <React.Fragment key={`parents-row-${i}`}>
-                                  <div key={`parent-groom-${i}`} className="px-1.5 sm:px-2 md:px-2.5">
-                                    {left ? <NameItem member={left} align="right" /> : <div className="py-0.5" />}
-                                  </div>
-                                  <div key={`parent-bride-${i}`} className="px-1.5 sm:px-2 md:px-2.5">
-                                    {right ? <NameItem member={right} align="left" /> : <div className="py-0.5" />}
-                                  </div>
-                                </React.Fragment>
-                              )
-                            }
-                            return rows
-                          })()}
-                        </TwoColumnLayout>
-                      </div>
-                    )
-                  }
-                  // Skip rendering for "Parents of the Bride" since it's already rendered above
+                if (
+                  category === "The Couple" ||
+                  category === "OFFICIATING MINISTER" ||
+                  category === "Parents of the Groom" ||
+                  category === "Parents of the Bride"
+                ) {
                   return null
                 }
 

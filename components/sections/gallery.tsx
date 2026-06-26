@@ -54,6 +54,20 @@ const cormorant = Cormorant_Garamond({
   weight: ["400"],
 })
 
+const mobileGalleryFilenames = [
+  "couple (1).jpeg",
+  "couple (2).jpeg",
+  "couple (3).jpeg",
+  "couple (4).jpeg",
+  "couple (5).jpeg",
+  "couple (6).jpeg",
+  "couple (7).jpeg",
+  "couple (8).jpeg",
+  "couple (9).jpeg",
+  "couple (10).jpeg",
+  "couple (11).jpeg",
+]
+
 const newglobeFilenames = [
   "couple (1).jpg",
   "couple (2).jpg",
@@ -79,10 +93,16 @@ const newglobeFilenames = [
   "couple (22).jpg",
 ]
 
-const galleryItems = newglobeFilenames.map((filename, index) => ({
-  image: `/newglobe/${filename}`,
-  text: `Gallery image ${index + 1}`,
-}))
+const galleryItems = [
+  ...mobileGalleryFilenames.map((filename, index) => ({
+    image: `/mobile-gallery/${filename}`,
+    text: `Gallery image ${index + 1}`,
+  })),
+  ...newglobeFilenames.map((filename, index) => ({
+    image: `/newglobe/${filename}`,
+    text: `Gallery image ${mobileGalleryFilenames.length + index + 1}`,
+  })),
+]
 
 type GalleryItem = { image: string; text: string }
 
