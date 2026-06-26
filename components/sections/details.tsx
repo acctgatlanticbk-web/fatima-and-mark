@@ -468,26 +468,94 @@ export function Details() {
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 mb-6 sm:mb-8 md:mb-10">
         <div className={GLASS_CARD_CLASS}>
-          <div className="px-4 sm:px-6 md:px-8 py-5 sm:py-7">
-            <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] max-w-2xl mx-auto rounded-lg sm:rounded-xl overflow-hidden border border-white/25">
-              <Image
-                src="/Details/new-guestAttire.png"
-                alt="Attire guide"
-                fill
-                className="object-contain bg-[#FFF7F6]/50 p-2 sm:p-3"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 672px"
-              />
+          <div className="px-4 sm:px-6 md:px-8 py-5 sm:py-7 space-y-8 sm:space-y-10">
+            {/* Principal Sponsors */}
+            <div>
+              <h4 className="font-[family-name:var(--font-safira-march)] text-[1rem] sm:text-[1.15rem] md:text-[1.3rem] leading-none tracking-[0.01em] text-white text-center mb-4 sm:mb-5 [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
+                Principal Sponsors
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 max-w-2xl mx-auto">
+                <div className="relative w-full aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden border border-white/25">
+                  <Image
+                    src="/Details/sponsorsnew.png"
+                    alt="Principal sponsors attire guide"
+                    fill
+                    className="object-contain bg-[#FFF7F6]/50 p-2 sm:p-3"
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                  />
+                </div>
+                <div className="relative w-full aspect-[4/3] rounded-lg sm:rounded-xl overflow-hidden border border-white/25">
+                  <Image
+                    src="/Details/sponsors2.png"
+                    alt="Principal sponsors attire guide"
+                    fill
+                    className="object-contain bg-[#FFF7F6]/50 p-2 sm:p-3"
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                  />
+                </div>
+              </div>
+              <div className={`${GLASS_INNER_CLASS} mt-5 sm:mt-6 px-3 py-3 sm:px-4 sm:py-3.5`}>
+                <p className={`${cormorant.className} text-left text-sm sm:text-base text-white leading-snug sm:leading-relaxed`}>
+                  We humbly request the honor of our Ninang&apos;s presence in elegant beige or champagne-colored dresses,{" "}
+                  <NameConnector size="sm">and</NameConnector>{" "}
+                  our Ninong&apos;s presence in a Classic Barong Tagalog with a white undershirt paired with black slacks.
+                </p>
+              </div>
             </div>
 
-            <div className={`${GLASS_INNER_CLASS} mt-5 sm:mt-6 px-3 py-3 sm:px-4 sm:py-3.5`}>
-              <p className={`${cormorant.className} text-left text-sm sm:text-base text-white leading-snug sm:leading-relaxed`}>
-                We humbly request the honor of our Ninangs&apos; presence in elegant beige or champagne-colored dresses,{" "}
-                <NameConnector size="sm">and</NameConnector>{" "}
-                our Ninongs&apos; presence in a classic Barong Tagalog with a white undershirt paired with black slacks.
+            {/* Guests */}
+            <div className="pt-6 sm:pt-8 border-t border-white/20">
+              <h4 className="font-[family-name:var(--font-safira-march)] text-[1rem] sm:text-[1.15rem] md:text-[1.3rem] leading-none tracking-[0.01em] text-white text-center mb-3 sm:mb-4 [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
+                Guests
+              </h4>
+              <p className={`${cormorant.className} text-center text-sm sm:text-base text-white/90 mb-6 sm:mb-8 leading-snug sm:leading-relaxed`}>
+                We kindly request our guests to dress in semi-formal attire.
               </p>
+
+              <div className="space-y-6 sm:space-y-8">
+                <div>
+                  <h5 className={`${cinzel.className} text-xs sm:text-sm md:text-base font-semibold tracking-[0.12em] uppercase text-white text-center mb-3 sm:mb-4`}>
+                    Ladies
+                  </h5>
+                  <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] max-w-xl mx-auto rounded-lg sm:rounded-xl overflow-hidden border border-white/25 mb-4 sm:mb-5">
+                    <Image
+                      src="/Details/guestone.png"
+                      alt="Guest attire for ladies"
+                      fill
+                      className="object-contain bg-[#FFF7F6]/50 p-2 sm:p-3"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 576px"
+                    />
+                  </div>
+                  <div className={`${GLASS_INNER_CLASS} px-3 py-3 sm:px-4 sm:py-3.5`}>
+                    <p className={`${cormorant.className} text-left text-sm sm:text-base text-white leading-snug sm:leading-relaxed`}>
+                      May wear a semi-formal dress paired with flats, sandals, or heels that you are comfortable wearing.
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className={`${cinzel.className} text-xs sm:text-sm md:text-base font-semibold tracking-[0.12em] uppercase text-white text-center mb-3 sm:mb-4`}>
+                    Gentlemen
+                  </h5>
+                  <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] max-w-xl mx-auto rounded-lg sm:rounded-xl overflow-hidden border border-white/25 mb-4 sm:mb-5">
+                    <Image
+                      src="/Details/guest.png"
+                      alt="Guest attire for gentlemen"
+                      fill
+                      className="object-contain bg-[#FFF7F6]/50 p-2 sm:p-3"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 576px"
+                    />
+                  </div>
+                  <div className={`${GLASS_INNER_CLASS} px-3 py-3 sm:px-4 sm:py-3.5`}>
+                    <p className={`${cormorant.className} text-left text-sm sm:text-base text-white leading-snug sm:leading-relaxed`}>
+                      May wear long sleeves or a button-down polo paired with pants. For gentlemen, we respectfully ask that no maong (denim jeans) or open-toe shoes be worn.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-white/20">
+            <div className="pt-6 sm:pt-8 border-t border-white/20">
               <div className="flex flex-col items-center mb-4 sm:mb-5">
                 <p className="font-[family-name:var(--font-safira-march)] text-[1rem] sm:text-[1.15rem] md:text-[1.3rem] leading-none tracking-[0.01em] text-white text-center mb-3 sm:mb-4 [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
                   Friendly Reminder

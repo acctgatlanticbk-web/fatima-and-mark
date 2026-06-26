@@ -12,6 +12,8 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel"
+import DomeGallery from "@/components/DomeGallery"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 const GLASS_CARD_CLASS =
   "relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-white/25 bg-white/15 backdrop-blur-lg shadow-[0_20px_70px_rgba(0,0,0,0.12)]"
@@ -52,23 +54,65 @@ const cormorant = Cormorant_Garamond({
   weight: ["400"],
 })
 
-const galleryItems = [
-  { image: "/mobile-gallery/couple (2).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (1).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (3).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (4).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (5).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (6).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (7).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (8).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (9).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (10).jpeg", text: " " },
-  { image: "/mobile-gallery/couple (11).jpeg", text: " " },
-  
-
+const newglobeFilenames = [
+  "couple (1).jpg",
+  "couple (2).jpg",
+  "couple (3).jpg",
+  "couple (4).jpeg",
+  "couple (5).jpeg",
+  "couple (6).jpg",
+  "couple (7).jpg",
+  "couple (8).JPG",
+  "couple (9).jpg",
+  "couple (10).JPG",
+  "couple (11).JPG",
+  "couple (12).jpg",
+  "couple (13).jpg",
+  "couple (14).jpg",
+  "couple (15).jpg",
+  "couple (16).jpg",
+  "couple (17).jpg",
+  "couple (18).jpg",
+  "couple (19).jpg",
+  "couple (20).jpg",
+  "couple (21).jpg",
+  "couple (22).jpg",
 ]
 
+const galleryItems = newglobeFilenames.map((filename, index) => ({
+  image: `/newglobe/${filename}`,
+  text: `Gallery image ${index + 1}`,
+}))
+
 type GalleryItem = { image: string; text: string }
+
+function GalleryDome({ items }: { items: GalleryItem[] }) {
+  const isMobile = useIsMobile()
+
+  return (
+    <DomeGallery
+      images={items.map((item, index) => ({
+        src: item.image,
+        alt: item.text || `Gallery image ${index + 1}`,
+      }))}
+      fit={isMobile ? 0.62 : 0.5}
+      fitBasis={isMobile ? "width" : "min"}
+      minRadius={isMobile ? 130 : 220}
+      maxRadius={isMobile ? 420 : 900}
+      padFactor={isMobile ? 0.06 : 0.12}
+      segments={isMobile ? 28 : 35}
+      dragSensitivity={isMobile ? 11 : 20}
+      dragDampening={isMobile ? 2.8 : 2}
+      tapCooldownMs={isMobile ? 180 : 80}
+      overlayBlurColor="#A02C1D"
+      grayscale={false}
+      imageBorderRadius={isMobile ? "10px" : "16px"}
+      openedImageBorderRadius={isMobile ? "14px" : "20px"}
+      openedImageWidth="320px"
+      openedImageHeight="420px"
+    />
+  )
+}
 
 function GalleryMobileCarousel({
   items,
@@ -322,62 +366,27 @@ export function Gallery() {
 
         {/* Gallery card container */}
         <div
-          className={`relative z-30 max-w-6xl mx-auto px-3 sm:px-5 transition-all duration-1000 delay-300 ${
+          className={`relative z-30 max-w-6xl mx-auto px-1.5 sm:px-5 transition-all duration-1000 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <div className={`${GLASS_CARD_CLASS} transition-all duration-500`}>
+          <div className={`${GLASS_CARD_CLASS} overflow-visible transition-all duration-500`}>
             <GlassOverlay />
-            <div className="relative z-10 p-4 sm:p-5 md:p-6 lg:p-8">
+            <div className="relative z-10 p-2 sm:p-5 md:p-6 lg:p-8">
               {isLoading ? (
-                <div className="flex items-center justify-center h-64 sm:h-80 md:h-96">
+                <div className="flex items-center justify-center h-[50dvh] min-h-[320px] sm:h-80 md:h-96">
                   <div className="w-12 h-12 border-[3px] border-white/30 border-t-white rounded-full animate-spin" />
                 </div>
               ) : (
                 <>
-                  {/* Mobile: Embla carousel */}
-                  <div className="sm:hidden">
-                    <GalleryMobileCarousel
-                      items={galleryItems}
-                      onOpen={(item, index) => {
-                        setSelectedImage(item)
-                        setCurrentIndex(index)
-                      }}
-                    />
+                  <div className="h-[52dvh] min-h-[340px] max-h-[520px] sm:h-[min(75vh,600px)] sm:max-h-none lg:h-[min(80vh,680px)] w-full touch-pan-y">
+                    <GalleryDome items={galleryItems} />
                   </div>
-
-                  {/* Tablet/Desktop: grid */}
-                  <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5 lg:gap-6">
-                    {galleryItems.map((item, index) => (
-                      <button
-                        key={item.image + index}
-                        type="button"
-                        className="group relative w-full overflow-hidden rounded-xl border border-white/25 bg-white/10 backdrop-blur-sm transition-all duration-300 hover:border-white/40"
-                        onClick={() => {
-                          setSelectedImage(item)
-                          setCurrentIndex(index)
-                        }}
-                        aria-label={`Open image ${index + 1}`}
-                      >
-                        <div className="relative aspect-[3/4] md:aspect-square overflow-hidden">
-                          <Image
-                            src={item.image}
-                            alt={item.text || `Gallery image ${index + 1}`}
-                            fill
-                            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        </div>
-
-                        <div className="absolute top-2 right-2 backdrop-blur-sm rounded-full px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50">
-                          <span className="text-xs font-medium text-white">
-                            {index + 1}/{galleryItems.length}
-                          </span>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
+                  <p
+                    className={`${cormorant.className} mt-2 sm:mt-3 text-center text-[11px] sm:text-xs tracking-wide text-white/70 px-1`}
+                  >
+                    Swipe to spin the gallery · Tap a photo to enlarge
+                  </p>
                 </>
               )}
 

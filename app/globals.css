@@ -543,3 +543,15 @@ html {
     display: none;
   }
 }
+
+body.dg-scroll-lock {
+  overflow: hidden;
+  touch-action: none;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body.dg-scroll-lock {
+    position: fixed;
+    width: 100%;
+  }
+}

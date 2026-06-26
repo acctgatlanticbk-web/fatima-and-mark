@@ -4,7 +4,7 @@ export function Hero() {
   return (
     <section id="home" className="relative flex w-full justify-center px-4 sm:px-6">
       <Image
-        src="/Details/heropage.png"
+        src="/Details/Gemini_Generated_Image_i3b31ii3b31ii3b3-removebg-preview.png"
         alt="Wedding invitation hero"
         width={409}
         height={566}
