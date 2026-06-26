@@ -55,7 +55,7 @@ function getFaqItems(siteConfig: SiteConfig): FAQItem[] {
       answer: `Our wedding will be held on ${siteConfig.ceremony.date} (${siteConfig.ceremony.day})`,
     },
     {
-      question: "What time should I arrive for the ceremony?",
+      question: "What time should I arrive for the ceremony.?",
       answer: `Our ceremony will begin promptly at ${siteConfig.ceremony.time}. We kindly ask guests to arrive 30–45 minutes earlier to allow enough time for parking, walking to the ceremony area, and finding your seats so we can begin on time.`,
     },
     {
