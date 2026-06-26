@@ -48,7 +48,7 @@ export function LoveStory() {
         When Road Trip Buddies Became Forever
         </h1>
         <p className={`${cinzel.className} text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl tracking-[0.14em] sm:tracking-[0.18em] font-normal leading-tight text-motif-medium mt-3 sm:mt-4 md:mt-5 mb-1`}>
-        A friendship that began on a journey in 2022 and blossomed into a love anchored in faith, purpose, and unwavering devotion.
+        A friendship that began on a journey in 2022 and blossomed into a love anchored in faith, purpose, and unwavering devotion
         </p>
       </div>
 
