@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
-import Link from "next/link"
 import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Cormorant_Garamond } from "next/font/google"
@@ -12,127 +11,57 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel"
-import DomeGallery from "@/components/DomeGallery"
-import { useIsMobile } from "@/hooks/use-mobile"
-
-const GLASS_CARD_CLASS =
-  "relative overflow-hidden rounded-2xl sm:rounded-3xl md:rounded-[2rem] border border-white/25 bg-white/15 backdrop-blur-lg shadow-[0_20px_70px_rgba(0,0,0,0.12)]"
-
-const primaryBtnClass =
-  "cursor-pointer rounded-full border border-white/40 bg-white px-5 py-3 text-[9px] font-bold tracking-[0.16em] uppercase text-[#7D7F2E] shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-all duration-300 hover:bg-white/90 hover:border-white/60 hover:shadow-xl hover:-translate-y-0.5 sm:px-7 sm:py-3.5 sm:text-[10px] sm:tracking-[0.18em] md:px-8 md:py-4 md:text-[11px]"
-
-function MotifDivider() {
-  return (
-    <div
-      className="flex items-center justify-center gap-2 w-full max-w-[12rem] sm:max-w-[14rem] md:max-w-[16rem]"
-      aria-hidden="true"
-    >
-      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/30 to-white/45" />
-      <div className="w-1 h-1 rounded-full bg-white/75 shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)]" />
-      <div className="h-px flex-1 bg-gradient-to-l from-transparent via-white/30 to-white/45" />
-    </div>
-  )
-}
-
-function GlassOverlay() {
-  return (
-    <div className="pointer-events-none absolute inset-0" aria-hidden>
-      <div
-        className="absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2"
-        style={{ background: "radial-gradient(circle at center, color-mix(in srgb, white 8%, transparent), transparent 60%)" }}
-      />
-      <div
-        className="absolute bottom-[-6rem] right-[-2rem] h-64 w-64"
-        style={{ background: "radial-gradient(circle at center, color-mix(in srgb, white 6%, transparent), transparent 60%)" }}
-      />
-    </div>
-  )
-}
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400"],
 })
 
-const mobileGalleryFilenames = [
-  "couple (1).jpeg",
-  "couple (2).jpeg",
-  "couple (3).jpeg",
-  "couple (4).jpeg",
-  "couple (5).jpeg",
-  "couple (6).jpeg",
-  "couple (7).jpeg",
-  "couple (8).jpeg",
-  "couple (9).jpeg",
-  "couple (10).jpeg",
-  "couple (11).jpeg",
-]
-
-const newglobeFilenames = [
-  "couple (1).jpg",
-  "couple (2).jpg",
-  "couple (3).jpg",
-  "couple (4).jpeg",
-  "couple (5).jpeg",
-  "couple (6).jpg",
-  "couple (7).jpg",
-  "couple (8).JPG",
-  "couple (9).jpg",
-  "couple (10).JPG",
-  "couple (11).JPG",
-  "couple (12).jpg",
-  "couple (13).jpg",
-  "couple (14).jpg",
-  "couple (15).jpg",
-  "couple (16).jpg",
-  "couple (17).jpg",
-  "couple (18).jpg",
-  "couple (19).jpg",
-  "couple (20).jpg",
-  "couple (21).jpg",
-  "couple (22).jpg",
-]
-
 const galleryItems = [
-  ...mobileGalleryFilenames.map((filename, index) => ({
-    image: `/mobile-gallery/${filename}`,
-    text: `Gallery image ${index + 1}`,
-  })),
-  ...newglobeFilenames.map((filename, index) => ({
-    image: `/newglobe/${filename}`,
-    text: `Gallery image ${mobileGalleryFilenames.length + index + 1}`,
-  })),
+  { image: "/mobile-gallery/couple (1).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (2).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (3).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (4).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (5).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (6).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (7).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (8).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (9).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (10).jpeg", text: " " },
+  { image: "/mobile-gallery/couple (11).jpeg", text: " " },
+  { image: "/newglobe/couple (1).jpeg", text: " " },
+  { image: "/newglobe/couple (1).jpg", text: " " },
+  { image: "/newglobe/couple (1).PNG", text: " " },
+  { image: "/newglobe/couple (2).jpeg", text: " " },
+  { image: "/newglobe/couple (2).jpg", text: " " },
+  { image: "/newglobe/couple (3).jpeg", text: " " },
+  { image: "/newglobe/couple (3).jpg", text: " " },
+  { image: "/newglobe/couple (4).jpeg", text: " " },
+  { image: "/newglobe/couple (4).JPG", text: " " },
+  { image: "/newglobe/couple (5).jpeg", text: " " },
+  { image: "/newglobe/couple (5).JPG", text: " " },
+  { image: "/newglobe/couple (6).jpeg", text: " " },
+  { image: "/newglobe/couple (6).jpg", text: " " },
+  { image: "/newglobe/couple (7).jpeg", text: " " },
+  { image: "/newglobe/couple (7).jpg", text: " " },
+  { image: "/newglobe/couple (8).JPG", text: " " },
+  { image: "/newglobe/couple (9).jpg", text: " " },
+  { image: "/newglobe/couple (10).JPG", text: " " },
+  { image: "/newglobe/couple (11).JPG", text: " " },
+  { image: "/newglobe/couple (12).jpg", text: " " },
+  { image: "/newglobe/couple (13).jpg", text: " " },
+  { image: "/newglobe/couple (14).jpg", text: " " },
+  { image: "/newglobe/couple (15).jpg", text: " " },
+  { image: "/newglobe/couple (16).jpg", text: " " },
+  { image: "/newglobe/couple (17).jpg", text: " " },
+  { image: "/newglobe/couple (18).jpg", text: " " },
+  { image: "/newglobe/couple (19).jpg", text: " " },
+  { image: "/newglobe/couple (20).jpg", text: " " },
+  { image: "/newglobe/couple (21).jpg", text: " " },
+  { image: "/newglobe/couple (22).jpg", text: " " },
 ]
 
 type GalleryItem = { image: string; text: string }
-
-function GalleryDome({ items }: { items: GalleryItem[] }) {
-  const isMobile = useIsMobile()
-
-  return (
-    <DomeGallery
-      images={items.map((item, index) => ({
-        src: item.image,
-        alt: item.text || `Gallery image ${index + 1}`,
-      }))}
-      fit={isMobile ? 0.62 : 0.5}
-      fitBasis={isMobile ? "width" : "min"}
-      minRadius={isMobile ? 130 : 220}
-      maxRadius={isMobile ? 420 : 900}
-      padFactor={isMobile ? 0.06 : 0.12}
-      segments={isMobile ? 28 : 35}
-      dragSensitivity={isMobile ? 11 : 20}
-      dragDampening={isMobile ? 2.8 : 2}
-      tapCooldownMs={isMobile ? 180 : 80}
-      overlayBlurColor="#A02C1D"
-      grayscale={false}
-      imageBorderRadius={isMobile ? "10px" : "16px"}
-      openedImageBorderRadius={isMobile ? "14px" : "20px"}
-      openedImageWidth="320px"
-      openedImageHeight="420px"
-    />
-  )
-}
 
 function GalleryMobileCarousel({
   items,
@@ -172,10 +101,10 @@ function GalleryMobileCarousel({
               <CarouselItem key={item.image + index} className="pl-3 basis-[88%]">
                 <button
                   type="button"
-                  className={`group relative w-full overflow-hidden rounded-xl border bg-white/10 backdrop-blur-sm transition-all duration-500 ease-out ${
+                  className={`group relative w-full overflow-hidden rounded-xl transition-all duration-500 ease-out ${
                     isActive
-                      ? "border-white/50 shadow-[0_12px_40px_rgba(0,0,0,0.2)] scale-100"
-                      : "border-white/15 scale-[0.94] opacity-70"
+                      ? "shadow-[0_12px_40px_rgba(0,0,0,0.2)] scale-100"
+                      : "scale-[0.94] opacity-70"
                   }`}
                   onClick={() => onOpen(item, index)}
                   aria-label={`Open image ${index + 1}`}
@@ -226,7 +155,7 @@ function GalleryMobileCarousel({
         </button>
       </Carousel>
 
-      <div className="mt-4 flex items-center justify-center gap-1.5">
+      {/* <div className="mt-4 flex items-center justify-center gap-1.5">
         {items.map((_, index) => (
           <button
             key={index}
@@ -240,7 +169,7 @@ function GalleryMobileCarousel({
             }`}
           />
         ))}
-      </div>
+      </div> */}
 
       <p className={`${cormorant.className} mt-2 text-center text-xs tracking-wide text-white/70`}>
         Swipe or tap arrows to explore
@@ -359,69 +288,86 @@ export function Gallery() {
       >
         {/* Section Header */}
         <div
-          className={`relative z-30 flex flex-col items-center gap-3 sm:gap-4 md:gap-5 text-center mb-4 sm:mb-5 md:mb-6 px-3 sm:px-4 transition-all duration-1000 ${
+          className={`relative z-30 flex flex-col items-center gap-4 sm:gap-5 md:gap-6 text-center mt-8 sm:mt-10 md:mt-12 mb-8 sm:mb-10 md:mb-12 px-3 sm:px-4 transition-all duration-1000 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
           }`}
         >
           <p
-            className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90`}
+            className={`${cormorant.className} text-[0.7rem] sm:text-xs md:text-sm uppercase tracking-[0.28em] text-white/90 max-w-xs sm:max-w-sm leading-relaxed`}
           >
             {siteConfig.couple.groomNickname} &amp; {siteConfig.couple.brideNickname}
           </p>
 
-          {/* <MotifDivider /> */}
-
           <h2
-            className="font-[family-name:var(--font-safira-march)] text-[2rem] sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
+            className="font-[family-name:var(--font-safira-march)] text-[clamp(1.6rem,5.8vw,2rem)] sm:text-[2.85rem] md:text-[3.55rem] lg:text-[4.1rem] xl:text-[4.6rem] leading-none tracking-[0.015em] sm:tracking-[0.01em] text-white px-2 sm:px-3 my-1 sm:my-1.5 [text-shadow:0_2px_14px_rgba(0,0,0,0.22)]"
           >
             Gallery
           </h2>
 
           <p
-            className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-xl mx-auto leading-relaxed px-2 sm:px-3`}
+            className={`${cormorant.className} text-xs sm:text-sm md:text-base italic text-white/90 max-w-xl mx-auto leading-relaxed px-2 sm:px-3 mt-0.5 sm:mt-1`}
           >
             From our first chapter to this beautiful season of commitment, every moment has been a testament to love, faith, and grace.
           </p>
         </div>
 
-        {/* Gallery card container */}
+        {/* Gallery container */}
         <div
-          className={`relative z-30 max-w-6xl mx-auto px-1.5 sm:px-5 transition-all duration-1000 delay-300 ${
+          className={`relative z-30 max-w-6xl mx-auto px-3 sm:px-5 transition-all duration-1000 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <div className={`${GLASS_CARD_CLASS} overflow-visible transition-all duration-500`}>
-            <GlassOverlay />
-            <div className="relative z-10 p-2 sm:p-5 md:p-6 lg:p-8">
-              {isLoading ? (
-                <div className="flex items-center justify-center h-[50dvh] min-h-[320px] sm:h-80 md:h-96">
-                  <div className="w-12 h-12 border-[3px] border-white/30 border-t-white rounded-full animate-spin" />
-                </div>
-              ) : (
-                <>
-                  <div className="h-[52dvh] min-h-[340px] max-h-[520px] sm:h-[min(75vh,600px)] sm:max-h-none lg:h-[min(80vh,680px)] w-full touch-pan-y">
-                    <GalleryDome items={galleryItems} />
-                  </div>
-                  <p
-                    className={`${cormorant.className} mt-2 sm:mt-3 text-center text-[11px] sm:text-xs tracking-wide text-white/70 px-1`}
-                  >
-                    Swipe to spin the gallery · Tap a photo to enlarge
-                  </p>
-                </>
-              )}
-
-              {/* {!isLoading && (
-                <div className="mt-8 sm:mt-10 flex justify-center">
-                  <Link
-                    href="/gallery"
-                    className={`${cinzel.className} ${primaryBtnClass} inline-flex items-center justify-center`}
-                  >
-                    View full gallery
-                  </Link>
-                </div>
-              )} */}
+          {isLoading ? (
+            <div className="flex items-center justify-center h-64 sm:h-80 md:h-96">
+              <div className="w-12 h-12 border-[3px] border-white/30 border-t-white rounded-full animate-spin" />
             </div>
-          </div>
+          ) : (
+            <>
+              {/* Mobile: Embla carousel */}
+              <div className="sm:hidden">
+                <GalleryMobileCarousel
+                  items={galleryItems}
+                  onOpen={(item, index) => {
+                    setSelectedImage(item)
+                    setCurrentIndex(index)
+                  }}
+                />
+              </div>
+
+              {/* Tablet/Desktop: grid */}
+              <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5 lg:gap-6">
+                {galleryItems.map((item, index) => (
+                  <button
+                    key={item.image + index}
+                    type="button"
+                    className="group relative w-full overflow-hidden rounded-xl transition-all duration-300"
+                    onClick={() => {
+                      setSelectedImage(item)
+                      setCurrentIndex(index)
+                    }}
+                    aria-label={`Open image ${index + 1}`}
+                  >
+                    <div className="relative aspect-[3/4] md:aspect-square overflow-hidden">
+                      <Image
+                        src={item.image}
+                        alt={item.text || `Gallery image ${index + 1}`}
+                        fill
+                        sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+
+                    <div className="absolute top-2 right-2 backdrop-blur-sm rounded-full px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50">
+                      <span className="text-xs font-medium text-white">
+                        {index + 1}/{galleryItems.length}
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </section>
 

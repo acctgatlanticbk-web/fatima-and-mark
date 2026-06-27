@@ -558,6 +558,26 @@ export function Details() {
             <div className="pt-6 sm:pt-8 border-t border-white/20">
               <div className="flex flex-col items-center mb-4 sm:mb-5">
                 <p className="font-[family-name:var(--font-safira-march)] text-[1rem] sm:text-[1.15rem] md:text-[1.3rem] leading-none tracking-[0.01em] text-white text-center mb-3 sm:mb-4 [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
+                  Gift Guide
+                </p>
+                <Image
+                  src="/weddingtimeline/gift.png"
+                  alt="Gift guide"
+                  width={288}
+                  height={288}
+                  className="w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 object-contain brightness-0 invert opacity-90"
+                />
+              </div>
+              <div className={`${GLASS_INNER_CLASS} px-3 py-3 sm:px-4 sm:py-3.5`}>
+                <p className={`${cormorant.className} text-left text-sm sm:text-base text-white leading-snug sm:leading-relaxed`}>
+                  Your presence at our wedding is the greatest gift we could ask for. Your love, laughter, and company on our special day are more than enough. Should you wish to honor us with a gift, a monetary contribution toward our future together would be deeply appreciated and gratefully received.
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-6 sm:pt-8 border-t border-white/20">
+              <div className="flex flex-col items-center mb-4 sm:mb-5">
+                <p className="font-[family-name:var(--font-safira-march)] text-[1rem] sm:text-[1.15rem] md:text-[1.3rem] leading-none tracking-[0.01em] text-white text-center mb-3 sm:mb-4 [text-shadow:0_2px_10px_rgba(0,0,0,0.2)]">
                   Friendly Reminder
                 </p>
                 <Image
