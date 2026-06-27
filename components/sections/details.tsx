@@ -379,12 +379,12 @@ export function Details() {
                   </p>
                 ) : (
                   <>
-                    <p className={`${cinzel.className} text-[10px] sm:text-xs md:text-sm font-[family-name:var(--font-crimson)] font-semibold text-white/90 uppercase tracking-[0.2em] mb-2 sm:mb-3`}>
+                    {/* <p className={`${cinzel.className} text-[10px] sm:text-xs md:text-sm font-[family-name:var(--font-crimson)] font-semibold text-white/90 uppercase tracking-[0.2em] mb-2 sm:mb-3`}>
                       {siteConfig.reception.time === "After ceremony" ? "Starts" : "Starts at"}
-                    </p>
-                    <p className={`${cinzel.className} text-sm sm:text-base md:text-lg lg:text-xl font-[family-name:var(--font-crimson)] font-semibold text-white tracking-wide`}>
+                    </p> */}
+                    {/* <p className={`${cinzel.className} text-sm sm:text-base md:text-lg lg:text-xl font-[family-name:var(--font-crimson)] font-semibold text-white tracking-wide`}>
                       {siteConfig.reception.time}
-                    </p>
+                    </p> */}
                   </>
                 )}
               </div>
